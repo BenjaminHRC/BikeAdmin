@@ -3,7 +3,7 @@ var user_form;
 var user_modal;
 var liste_users;
 
-function userProperties(action, _id) {
+const userProperties = (action, _id) => {
     switch (action) {
 
         case "new":
@@ -19,7 +19,7 @@ function userProperties(action, _id) {
                 url: 'viewUser/' + _id,
                 type: 'GET',
                 dataType: 'json',
-                success: function (json) {
+                success: (json) => {
                     console.log(json[0]);
                     user = json[0];
 
@@ -30,7 +30,7 @@ function userProperties(action, _id) {
 
                     $("#userModal").modal();
                 },
-                error: function (error) {
+                error: (error) => {
                     console.log(error);
                 }
             });
@@ -50,14 +50,14 @@ function userProperties(action, _id) {
                 headers: {
                     'X-CSRF-TOKEN': crsf_token
                 },
-                success: function (json) {
+                success: (json) => {
                     console.log(json);
                     if (json.status == 0) {
                         liste_users.ajax.reload();
                         $("#userModal").modal('hide');
                     }
                 },
-                error: function (error) {
+                error: (error) => {
                     console.log(error);
                 }
             });
@@ -72,14 +72,14 @@ function userProperties(action, _id) {
                     'X-CSRF-Token': crsf_token
                 },
                 dataType: 'json',
-                success: function (json) {
+                success: (json) => {
                     console.log(json);
                     if (json.status === 0) {
                         liste_users.ajax.reload();
                         $("#userModal").modal('hide');
                     }
                 },
-                error: function (error) {
+                error: (error) => {
                     console.log(error);
                     // swal("Erreur!", "Impossible de supprimer la NIP", "error");
                 }
@@ -93,15 +93,19 @@ function userProperties(action, _id) {
                 url: "loginConnexion",
                 // data: "data",
                 dataType: "dataType",
-                success: function (response) {
-                    
+                success: (response) => {
+
                 }
             });
+            break;
+
+        case "view":
+            console.log("guest_" + _id);
             break;
     }
 }
 
-$(function () {
+$(() => {
     // datatable
     liste_users = $("#liste_users").DataTable({
         order: [[0, "asc"]],
@@ -111,27 +115,27 @@ $(function () {
         // autoWidth: false,
         columns: [
             {
-                data: "id", render: function (data, type, row, meta) {
+                data: "id", render: (data, type, row, meta) => {
                     console.log(data);
                     return $('<span>')
                         .addClass('btn btn-secondary btn-sm')
                         .html(data === '' ? $('<i>').html('non renseigné') : data)
-                        .attr('onClick', "nipProperties('view','" + row.id + "');")[0].outerHTML;
+                        .attr('onClick', "userProperties('view','" + row.id + "');")[0].outerHTML;
                 }
             },
             {
-                data: "name", render: function (data, type, row, meta) {
+                data: "name", render: (data, type, row, meta) => {
                     return data != null ? data : "-";
                 }
             },
             {
-                data: "email", render: function (data, type, row, meta) {
+                data: "email", render: (data, type, row, meta) => {
                     return data != null ? data : "-";
                 }
             },
             {
                 data: "id",
-                render: function (data, type, row) {
+                render: (data, type, row) => {
                     var edit = $("<button>")
                         .attr("class", "btn btn-info btn-sm")
                         .attr('onClick', "userProperties('edit'," + row.id + ")")
@@ -150,11 +154,11 @@ $(function () {
         ]
     });
 
-    $("#addUser").click(function () {
+    $("#addUser").click(() => {
         userProperties("new");
     });
 
-    $("#userModal .btn-primary").click(function () {
+    $("#userModal .btn-primary").click(() => {
         userProperties("save");
     });
 });

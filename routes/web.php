@@ -22,9 +22,9 @@ Route::get('/', function () {
 Route::post('/saveUser', [UserController::class, 'save']);
 Route::get('/listeUser', [UserController::class, 'liste']);
 Route::get('/viewUser/{id}', [UserController::class, 'view']);
-Route::get('/deleteUser/{id}', [UserController::class, 'delete']);
+Route::post('/deleteUser/{id}', [UserController::class, 'delete']);
 // *** CONNECTION ***
-Route::get('/connexion', function(){
+Route::get('/connexion', function () {
     return view('connexion');
 });
 Route::post('/loginConnexion', [UserController::class, 'connect']);
