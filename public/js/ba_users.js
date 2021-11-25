@@ -139,13 +139,13 @@ $(() => {
                     var edit = $("<button>")
                         .attr("class", "btn btn-info btn-sm")
                         .attr('onClick', "userProperties('edit'," + row.id + ")")
-                        .html($("<i>").addClass("bi bi-pencil-square"))
+                        .html($("<i>").addClass("fas fa-fw fa-edit"))
                     [0].outerHTML;
 
                     var del = $("<button>")
                         .attr("class", "btn btn-danger btn-sm")
                         .attr('onClick', "userProperties('delete'," + row.id + ")")
-                        .html($("<i>").addClass("bi bi-x-square"))
+                        .html($("<i>").addClass("fas fa-fw fa-backspace"))
                     [0].outerHTML;
 
                     return edit + "&nbsp;" + del;
