@@ -32,10 +32,10 @@
 </div>
 <!-- /.container-fluid -->
 <!-- Include modals -->
-@include('element.modal_users')
+@include('element.modals.modal_users')
 <!-- End of Include modals -->
 @endsection
 
 @push('scripts')
-<script src="js/ba_users.js"></script>
+<script src="js/users.js"></script>
 @endpush

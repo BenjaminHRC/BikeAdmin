@@ -77,6 +77,7 @@
     <!-- Page level custom scripts -->
     <!-- <script src="sb-admin/js/demo/chart-area-demo.js"></script>
     <script src="sb-admin/js/demo/chart-pie-demo.js"></script> -->
+    <script src="js/common.js"></script>
     @stack('scripts')
     <script>
     var crsf_token = "<?php echo csrf_token() ?>";
