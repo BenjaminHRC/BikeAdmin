@@ -1,8 +1,9 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ProductController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\TestController;
+use Illuminate\Support\Facades\Route;
 
 /*
 |--------------------------------------------------------------------------
@@ -32,6 +33,7 @@ Route::post('/loginConnexion', [UserController::class, 'connect']);
 Route::get('/products', function () {
     return view('production.products');
 });
+Route::get('listProduct', [ProductController::class, 'list']);
 // *** STOCKS ***
 Route::get('/stocks', function () {
     return view('production.stocks');
