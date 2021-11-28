@@ -24,22 +24,22 @@ class Dao_product extends Model
         $this->category_id = $category_id;
     }
 
-    function getId()
+    function getProductId()
     {
         return $this->id;
     }
 
-    function setId($id)
+    function setProductId($id)
     {
         return $this->id = $id;
     }
 
-    function getName()
+    function getProductName()
     {
         return $this->name;
     }
 
-    function setName($name)
+    function setProductName($name)
     {
         return $this->name = $name;
     }

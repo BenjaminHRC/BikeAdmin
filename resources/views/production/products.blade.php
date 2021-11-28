@@ -8,7 +8,7 @@
         <div class="card-header py-3">
             <div class="d-sm-flex align-items-center justify-content-between">
                 <h6 class="m-0 font-weight-bold text-primary">Liste des produits</h6>
-                <span id="addUser" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">Nouvel</span>
+                <span id="addProduct" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">Nouvel</span>
             </div>
         </div>
         <div class="card-body">
@@ -18,10 +18,10 @@
                         <tr>
                             <th>id</th>
                             <th>Nom</th>
+                            <th>Année</th>
+                            <th>Prix</th>
                             <th>Marque</th>
                             <th>Catégorie</th>
-                            <th>Modèle</th>
-                            <th>Prix</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
@@ -33,10 +33,11 @@
 </div>
 <!-- /.container-fluid -->
 <!-- Include modals -->
+@include('element.modals.modal_products')
 <!--  -->
 <!-- End of Include modals -->
 @endsection
 
 @push('scripts')
-<!-- <script src="js/users.js"></script> -->
+<script src="js/production/products.js"></script>
 @endpush

@@ -31,9 +31,11 @@ Route::get('/connexion', function () {
 Route::post('/loginConnexion', [UserController::class, 'connect']);
 // *** PORDUCTS ***
 Route::get('/products', function () {
-    return view('production.products');
+    return view('production.products'); // return non obligatoire
 });
 Route::get('listProduct', [ProductController::class, 'list']);
+Route::post('saveProduct', [ProductController::class, 'save']);
+Route::post('deleteProduct/{id}', [ProductController::class, 'delete']);
 // *** STOCKS ***
 Route::get('/stocks', function () {
     return view('production.stocks');
