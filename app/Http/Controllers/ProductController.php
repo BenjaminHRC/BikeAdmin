@@ -19,6 +19,15 @@ class ProductController extends Controller
     {
     }
 
+    function view($id)
+    {
+        if ($id != null && !empty($id)) {
+            return $this->Products->findIt($id);
+        } else {
+            return ["status" => 1, "message" => "ID null ou undefined"];
+        }
+    }
+
     function list()
     {
         $query = $this->Products->findAll();

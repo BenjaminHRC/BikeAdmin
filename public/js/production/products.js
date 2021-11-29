@@ -16,17 +16,19 @@ const productProperties = (action, _id) => {
         case "edit":
             console.log("edit");
             $.ajax({
-                url: 'viewproduct/' + _id,
+                url: 'viewProduct/' + _id,
                 type: 'GET',
                 dataType: 'json',
                 success: (json) => {
                     console.log(json[0]);
                     product = json[0];
 
-                    $("#productId").val(product.id);
-                    $("#productName").val(product.name);
-                    $("#productEmail").val(product.email);
-                    $("#productPassword").attr("disabled", "disabled").removeAttr("required");
+                    $("#productId").val(product.product_id);
+                    $("#productName").val(product.product_name);
+                    $("#productModelYear").val(product.model_year);
+                    $("#productListPrice").val(product.list_price);
+                    $("#productBrandId").val(product.brand_id);
+                    $("#productCategoryId").val(product.category_id);
 
                     $("#productModal").modal();
                 },
@@ -76,7 +78,6 @@ const productProperties = (action, _id) => {
                     console.log(json);
                     if (json.status === 0) {
                         liste_products.ajax.reload();
-                        // $("#productModal").modal('hide');
                     }
                 },
                 error: (error) => {

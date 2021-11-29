@@ -36,6 +36,7 @@ Route::get('/products', function () {
 Route::get('listProduct', [ProductController::class, 'list']);
 Route::post('saveProduct', [ProductController::class, 'save']);
 Route::post('deleteProduct/{id}', [ProductController::class, 'delete']);
+Route::get('viewProduct/{id}', [ProductController::class, 'view']);
 // *** STOCKS ***
 Route::get('/stocks', function () {
     return view('production.stocks');

@@ -31,10 +31,14 @@ class Model_product extends Model
         return $result;
     }
 
+    function updateIt()
+    {
+    }
+
     function findAll()
     {
         $query = DB::select(
-            'SELECT product_id, product_name, model_year, list_price, brand_id, category_id FROM production.products'
+            'SELECT product_id, product_name, model_year, list_price, brand_id, category_id FROM production.products',
         );
 
         $results = [];
@@ -54,8 +58,18 @@ class Model_product extends Model
         return $results;
     }
 
-    function updateIt()
+    function findIt($id)
     {
+        try {
+            $result = DB::select(
+                'SELECT product_id, product_name, model_year, list_price, brand_id, category_id FROM production.products WHERE product_id=?',
+                [$id]
+            );
+        } catch (\Exception $e) {
+            $result = $e;
+        }
+
+        return $result;
     }
 
     function dropIt($id)
