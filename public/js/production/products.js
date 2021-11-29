@@ -8,6 +8,7 @@ const productProperties = (action, _id) => {
 
         case "new":
             product_form = $("#productForm");
+            $("#productId").val('');
             product_form[0].reset();
 
             $("#productModal").modal();
@@ -15,6 +16,7 @@ const productProperties = (action, _id) => {
 
         case "edit":
             console.log("edit");
+            product_form = $("#productForm");
             $.ajax({
                 url: 'viewProduct/' + _id,
                 type: 'GET',

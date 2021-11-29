@@ -45,20 +45,37 @@ class ProductController extends Controller
     function save(Request $request)
     {
         $result = ['status' => 2, 'message' => 'Données non formatée'];
-        // dd($request);
-        $products = new Dao_product(
-            null,
-            $request->product_name,
-            $request->model_year,
-            $request->list_price,
-            $request->brand_id,
-            $request->category_id
-        );
-        // dd($this->Products->createIt($products));
-        if ($this->Products->createIt($products) === true) {
-            $result = ['status' => 0, 'message' => 'Données sauvegarder'];
+
+        if ($request->product_id != null && !empty($request->product_id)) {
+            $products = new Dao_product(
+                $request->product_id,
+                $request->product_name,
+                $request->model_year,
+                $request->list_price,
+                $request->brand_id,
+                $request->category_id
+            );
+            // dd($this->Products->createIt($products));
+            if ($this->Products->updateIt($products) === true) {
+                $result = ['status' => 0, "action" => "update", 'message' => 'Données sauvegarder'];
+            } else {
+                $result = ['status' => 1, "action" => "update", 'message' => 'Données non sauvegarder'];
+            }
         } else {
-            $result = ['status' => 1, 'message' => 'Données non sauvegarder'];
+            $products = new Dao_product(
+                null,
+                $request->product_name,
+                $request->model_year,
+                $request->list_price,
+                $request->brand_id,
+                $request->category_id
+            );
+            // dd($this->Products->createIt($products));
+            if ($this->Products->createIt($products) === true) {
+                $result = ['status' => 0, "action" => "create", 'message' => 'Données sauvegarder'];
+            } else {
+                $result = ['status' => 1, "action" => "create", 'message' => 'Données non sauvegarder'];
+            }
         }
 
         return json_encode($result);

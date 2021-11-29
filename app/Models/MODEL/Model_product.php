@@ -26,13 +26,31 @@ class Model_product extends Model
             );
             $result = true;
         } catch (\Exception $e) {
-            $result = false;
+            $result = $e;
         }
         return $result;
     }
 
-    function updateIt()
+    function updateIt($product)
     {
+        try {
+            DB::update(
+                'UPDATE production.products set product_name = ?, model_year = ?, list_price = ?, brand_id = ?, category_id = ? WHERE product_id = ?',
+                [
+                    $product->getProductName(),
+                    $product->getModelYear(),
+                    $product->getPrice(),
+                    $product->getBrandId(),
+                    $product->getCategoryId(),
+                    $product->getProductId()
+                ]
+            );
+            $result = true;
+        } catch (\Exception $e) {
+            $result = $e;
+        }
+
+        return $result;
     }
 
     function findAll()
