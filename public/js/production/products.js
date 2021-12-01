@@ -2,6 +2,7 @@ var product;
 var product_form;
 var product_modal;
 var liste_products;
+var liste_brands;
 
 const productProperties = (action, _id) => {
     switch (action) {
@@ -10,6 +11,7 @@ const productProperties = (action, _id) => {
             product_form = $("#productForm");
             $("#productId").val('');
             product_form[0].reset();
+            generateOptionInput();
 
             $("#productModal").modal();
             break;
@@ -24,6 +26,7 @@ const productProperties = (action, _id) => {
                 success: (json) => {
                     console.log(json[0]);
                     product = json[0];
+                    generateOptionInput();
 
                     $("#productId").val(product.product_id);
                     $("#productName").val(product.product_name);
@@ -94,6 +97,12 @@ const productProperties = (action, _id) => {
             break;
     }
 }
+// a terminer
+const generateOptionInput = () => {
+    $.each(liste_brands, (k, v) => {
+        $("#productBrandId").append($('<option value="' + v.id + '">').html(v.name));
+    });
+}
 
 $(() => {
     // datatable
@@ -157,6 +166,19 @@ $(() => {
                 },
             }
         ]
+    });
+
+    $.ajax({
+        type: "get",
+        url: "indexProduct",
+        dataType: "json",
+        success: (json) => {
+            console.log(json);
+            liste_brands = json.brands;
+        },
+        error: (error) => {
+            console.log(error);
+        }
     });
 
     $("#addProduct").click(() => {

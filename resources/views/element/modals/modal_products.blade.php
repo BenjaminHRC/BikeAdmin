@@ -19,8 +19,8 @@
                     <label for="list_price">Prix</label>
                     <input type="text" name="list_price" class="form-control" id="productListPrice" required>
                     <br>
-                    <label for="brand_id">brand_id *tmp*</label>
-                    <input type="text" name="brand_id" class="form-control" id="productBrandId" required>
+                    <label for="brand_id">Marque</label>
+                    <select name="brand_id" class="form-control" id="productBrandId" required></select>
                     <br>
                     <label for="category_id">category_id *tmp*</label>
                     <input type="text" name="category_id" class="form-control" id="productCategoryId" required>

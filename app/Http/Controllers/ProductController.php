@@ -3,20 +3,35 @@
 namespace App\Http\Controllers;
 
 use App\Models\DAO\Dao_product;
+use App\Models\MODEL\Model_brand;
 use App\Models\MODEL\Model_product;
 use Illuminate\Http\Request;
 
 class ProductController extends Controller
 {
     private $Products;
+    private $Brands;
 
     function __construct()
     {
         $this->Products = new Model_product();
+        $this->Brands = new Model_brand();
     }
 
     function index()
     {
+        $query['brands'] = $this->Brands->findAll();
+        // $query['products'] = $this->Products->findAll();
+        $valuesBrands = [];
+
+        foreach ($query['brands'] as $value) {
+            // $value->setLastName(strtolower($value->getLastName()));
+            array_push($valuesBrands, json_decode($value->toJSONPrivate(), true));
+        }
+
+        $results['brands'] = $valuesBrands;
+
+        return json_encode($results);
     }
 
     function view($id)
@@ -32,14 +47,18 @@ class ProductController extends Controller
     {
         $query = $this->Products->findAll();
 
-        $results = array();
+        $values = [];
 
         foreach ($query as $value) {
             // $value->setLastName(strtolower($value->getLastName()));
-            array_push($results, json_decode($value->toJSONPrivate(), true));
+            array_push($values, json_decode($value->toJSONPrivate(), true));
         }
 
-        return json_encode(['data' => $results]);
+        $results['recordsTotal'] = count($query);
+        $results['recordsFiltered'] = count($query);
+        $results['data'] = $values;
+
+        return json_encode($results);
     }
 
     function save(Request $request)

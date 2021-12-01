@@ -15,22 +15,22 @@ class Dao_brand extends Model
         $this->name = $name;
     }
 
-    function getId()
+    function getBrandId()
     {
         return $this->id;
     }
 
-    function setId($id)
+    function setBrandId($id)
     {
         return $this->id = $id;
     }
 
-    function getName()
+    function getBrandName()
     {
         return $this->name;
     }
 
-    function setName($name)
+    function setBrandName($name)
     {
         return $this->name = $name;
     }

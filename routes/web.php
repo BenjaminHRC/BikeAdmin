@@ -33,6 +33,7 @@ Route::post('/loginConnexion', [UserController::class, 'connect']);
 Route::get('/products', function () {
     return view('production.products'); // return non obligatoire
 });
+Route::get('indexProduct', [ProductController::class, 'index']);
 Route::get('listProduct', [ProductController::class, 'list']);
 Route::post('saveProduct', [ProductController::class, 'save']);
 Route::post('deleteProduct/{id}', [ProductController::class, 'delete']);
