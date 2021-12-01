@@ -15,22 +15,22 @@ class Dao_category extends Model
         $this->name = $name;
     }
 
-    function getId()
+    function getCategoryId()
     {
         return $this->id;
     }
 
-    function setId($id)
+    function setCategoryId($id)
     {
         return $this->id = $id;
     }
 
-    function getName()
+    function getCategoryName()
     {
         return $this->name;
     }
 
-    function setName($name)
+    function setCategoryName($name)
     {
         return $this->name = $name;
     }

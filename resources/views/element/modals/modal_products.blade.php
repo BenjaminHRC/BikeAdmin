@@ -22,8 +22,8 @@
                     <label for="brand_id">Marque</label>
                     <select name="brand_id" class="form-control" id="productBrandId" required></select>
                     <br>
-                    <label for="category_id">category_id *tmp*</label>
-                    <input type="text" name="category_id" class="form-control" id="productCategoryId" required>
+                    <label for="category_id">Catégorie</label>
+                    <select name="category_id" class="form-control" id="productCategoryId" required></select>
                     <br>
                 </form>
             </div>

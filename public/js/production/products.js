@@ -3,6 +3,7 @@ var product_form;
 var product_modal;
 var liste_products;
 var liste_brands;
+var liste_categories;
 
 const productProperties = (action, _id) => {
     switch (action) {
@@ -97,10 +98,14 @@ const productProperties = (action, _id) => {
             break;
     }
 }
-// a terminer
+
 const generateOptionInput = () => {
     $.each(liste_brands, (k, v) => {
         $("#productBrandId").append($('<option value="' + v.id + '">').html(v.name));
+    });
+
+    $.each(liste_categories, (k, v) => {
+        $("#productCategoryId").append($('<option value="' + v.id + '">').html(v.name));
     });
 }
 
@@ -175,6 +180,7 @@ $(() => {
         success: (json) => {
             console.log(json);
             liste_brands = json.brands;
+            liste_categories = json.categories;
         },
         error: (error) => {
             console.log(error);

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\DAO\Dao_product;
 use App\Models\MODEL\Model_brand;
+use App\Models\MODEL\Model_category;
 use App\Models\MODEL\Model_product;
 use Illuminate\Http\Request;
 
@@ -11,25 +12,32 @@ class ProductController extends Controller
 {
     private $Products;
     private $Brands;
+    private $Categories;
 
     function __construct()
     {
         $this->Products = new Model_product();
         $this->Brands = new Model_brand();
+        $this->Categories = new Model_category();
     }
 
     function index()
     {
         $query['brands'] = $this->Brands->findAll();
-        // $query['products'] = $this->Products->findAll();
+        $query['categories'] = $this->Categories->findAll();
+
         $valuesBrands = [];
+        $valuesCategories = [];
 
         foreach ($query['brands'] as $value) {
-            // $value->setLastName(strtolower($value->getLastName()));
             array_push($valuesBrands, json_decode($value->toJSONPrivate(), true));
+        }
+        foreach ($query['categories'] as $value) {
+            array_push($valuesCategories, json_decode($value->toJSONPrivate(), true));
         }
 
         $results['brands'] = $valuesBrands;
+        $results['categories'] = $valuesCategories;
 
         return json_encode($results);
     }
