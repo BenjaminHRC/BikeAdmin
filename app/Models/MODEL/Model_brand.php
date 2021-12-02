@@ -28,7 +28,7 @@ class Model_brand extends Model
     {
         try {
             DB::update(
-                'UPDATE production.products set product_name = ?, model_year = ?, list_price = ?, brand_id = ?, category_id = ? WHERE product_id = ?',
+                'UPDATE production.brands set brand_name = ? WHERE brand_id = ?',
                 [
                     $brand->getBrandName(),
                     $brand->getBrandId()

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\BrandController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\TestController;
@@ -46,6 +47,11 @@ Route::get('/stocks', function () {
 Route::get('/brands', function () {
     return view('production.brands');
 });
+Route::get('indexBrand', [BrandController::class, 'index']);
+Route::get('listBrand', [BrandController::class, 'list']);
+Route::post('saveBrand', [BrandController::class, 'save']);
+Route::post('deleteBrand/{id}', [BrandController::class, 'delete']);
+Route::get('viewBrand/{id}', [BrandController::class, 'view']);
 // *** CATEGORIES ***
 Route::get('/categories', function () {
     return view('production.categories');
