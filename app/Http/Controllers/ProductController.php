@@ -62,8 +62,6 @@ class ProductController extends Controller
             array_push($values, json_decode($value->toJSONPrivate(), true));
         }
 
-        $results['recordsTotal'] = count($query);
-        $results['recordsFiltered'] = count($query);
         $results['data'] = $values;
 
         return json_encode($results);

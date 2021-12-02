@@ -12,22 +12,20 @@
             </div>
         </div>
         <div class="card-body">
-            <div class="table-responsive">
-                <table class="table table-bordered w-100" id="liste_products">
-                    <thead>
-                        <tr>
-                            <th>id</th>
-                            <th>Nom</th>
-                            <th>Année</th>
-                            <th>Prix</th>
-                            <th>Marque</th>
-                            <th>Catégorie</th>
-                            <th>Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody></tbody>
-                </table>
-            </div>
+            <table class="table table-bordered w-100" id="liste_products">
+                <thead>
+                    <tr>
+                        <th>id</th>
+                        <th>Nom</th>
+                        <th>Année</th>
+                        <th>Prix</th>
+                        <th>Marque</th>
+                        <th>Catégorie</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
         </div>
     </div>
 </div>

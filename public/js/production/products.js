@@ -114,9 +114,8 @@ $(() => {
     liste_products = $("#liste_products").DataTable({
         order: [[0, "desc"]],
         ajax: "listProduct",
-        processing: true,
-        serverSide: true,
-        // autoWidth: false,
+        pagingType: "full_numbers",
+        scrollX: true,
         columns: [
             {
                 data: "id", render: (data, type, row, meta) => {
@@ -156,7 +155,7 @@ $(() => {
                 data: "id",
                 render: (data, type, row) => {
                     var edit = $("<button>")
-                        .attr("class", "btn btn-info btn-sm")
+                        .attr("class", "btn btn-info btn-sm my-1")
                         .attr('onClick', "productProperties('edit'," + row.id + ")")
                         .html($("<i>").addClass("fas fa-fw fa-edit"))
                     [0].outerHTML;
