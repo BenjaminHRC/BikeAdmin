@@ -56,7 +56,15 @@ class Model_product extends Model
     function findAll()
     {
         $query = DB::select(
-            'SELECT product_id, product_name, model_year, list_price, brand_id, category_id FROM production.products',
+            'SELECT p.product_id, 
+            p.product_name, 
+            p.model_year, 
+            p.list_price, 
+            c.category_name, 
+            b.brand_name 
+            FROM production.products p
+            LEFT JOIN production.brands b ON p.brand_id = b.brand_id 
+            LEFT JOIN  production.categories c ON p.category_id = c.category_id',
         );
 
         $results = [];
@@ -67,8 +75,8 @@ class Model_product extends Model
                 $value->product_name,
                 $value->model_year,
                 $value->list_price,
-                $value->brand_id,
-                $value->category_id
+                $value->brand_name,
+                $value->category_name
             );
             array_push($results, $product);
         }
