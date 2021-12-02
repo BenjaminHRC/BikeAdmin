@@ -8,7 +8,7 @@
         <div class="card-header py-3">
             <div class="d-sm-flex align-items-center justify-content-between">
                 <h6 class="m-0 font-weight-bold text-primary">Liste des produits</h6>
-                <span id="addProduct" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">Nouvel</span>
+                <span id="addProduct" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">Nouveau</span>
             </div>
         </div>
         <div class="card-body">
