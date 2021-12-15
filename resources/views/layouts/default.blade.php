@@ -71,6 +71,7 @@
     <script src="sb-admin/js/sb-admin-2.min.js"></script>
     <script src="sb-admin/vendor/datatables/jquery.dataTables.min.js"></script>
     <script src="sb-admin/vendor/datatables/dataTables.bootstrap4.min.js"></script>
+    <script src="my-plugins/moment/min/moment-with-locales.min.js"></script>
     <!-- Page level plugins -->
     <!-- <script src="sb-admin/vendor/chart.js/Chart.min.js"></script> -->
 
