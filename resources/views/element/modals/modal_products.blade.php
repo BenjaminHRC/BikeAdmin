@@ -10,7 +10,7 @@
             <div class="modal-body">
                 <form id="productForm" action="test" enctype="multipart/form-data" method="post">
                     <input type="hidden" name="product_id" class="form-control" id="productId">
-                    <label for="brand_name">Nom</label>
+                    <label for="product_name">Nom</label>
                     <input type="text" name="product_name" class="form-control" id="productName" required>
                     <br>
                     <label for="model_year">Année du modèle</label>
@@ -25,6 +25,8 @@
                     <label for="category_id">Catégorie</label>
                     <select name="category_id" class="form-control" id="productCategoryId" required></select>
                     <br>
+                    <label for="store_id">Magasin</label>
+                    <select name="store_id" class="form-control" id="productStoreId"></select>
                 </form>
             </div>
             <div class="modal-footer">

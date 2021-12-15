@@ -5,9 +5,9 @@ namespace App\Models\MODEL;
 use App\Models\DAO\Dao_brand;
 use App\Models\DAO\Dao_category;
 use App\Models\DAO\Dao_product;
+use App\Models\DAO\Dao_stock;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
-
 
 class Model_product extends Model
 {
@@ -24,6 +24,13 @@ class Model_product extends Model
                     $product->getCategoryId()
                 ]
             );
+            // DB::insert(
+            //     'INSERT INTO production.stocks (store_id, quantity) values (?, ?)',
+            //     [
+            //         $product->getStoreId(),
+            //         $product->getQuantity()
+            //     ]
+            // );
             $result = true;
         } catch (\Exception $e) {
             $result = $e;

@@ -114,8 +114,7 @@ $(() => {
     liste_products = $("#liste_products").DataTable({
         order: [[0, "desc"]],
         ajax: "listProduct",
-        pagingType: "full_numbers",
-        scrollX: true,
+        // pagingType: "full_numbers",
         columns: [
             {
                 data: "id", render: (data, type, row, meta) => {
