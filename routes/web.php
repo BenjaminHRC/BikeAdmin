@@ -2,7 +2,11 @@
 
 use App\Http\Controllers\BrandController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\CustomerController;
+use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\StaffController;
+use App\Http\Controllers\StoreController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\TestController;
 use Illuminate\Support\Facades\Route;
@@ -66,18 +70,38 @@ Route::get('viewCategory/{id}', [CategoryController::class, 'view']);
 Route::get('/orders', function () {
     return view('sales.orders');
 });
+Route::get('indexOrder', [OrderController::class, 'index']);
+Route::get('listOrder', [OrderController::class, 'list']);
+Route::post('saveOrder', [OrderController::class, 'save']);
+Route::post('deleteOrder/{id}', [OrderController::class, 'delete']);
+Route::get('viewOrder/{id}', [OrderController::class, 'view']);
 // *** STAFFS ***
 Route::get('/staffs', function () {
     return view('sales.staffs');
 });
+Route::get('indexStaff', [StaffController::class, 'index']);
+Route::get('listStaff', [StaffController::class, 'list']);
+Route::post('saveStaff', [StaffController::class, 'save']);
+Route::post('deleteStaff/{id}', [StaffController::class, 'delete']);
+Route::get('viewStaff/{id}', [StaffController::class, 'view']);
 // *** STORES ***
 Route::get('/stores', function () {
     return view('sales.stores');
 });
+Route::get('indexStore', [StoreController::class, 'index']);
+Route::get('listStore', [StoreController::class, 'list']);
+Route::post('saveStore', [StoreController::class, 'save']);
+Route::post('deleteStore/{id}', [StoreController::class, 'delete']);
+Route::get('viewStore/{id}', [StoreController::class, 'view']);
 // *** CUSTOMERS ***
 Route::get('/customers', function () {
     return view('sales.customers');
 });
+Route::get('indexCustomer', [CustomerController::class, 'index']);
+Route::get('listCustomer', [CustomerController::class, 'list']);
+Route::post('saveCustomer', [CustomerController::class, 'save']);
+Route::post('deleteCustomer/{id}', [CustomerController::class, 'delete']);
+Route::get('viewCustomer/{id}', [CustomerController::class, 'view']);
 // *** LES TEST ***
 Route::post('/test', [UserController::class, 'testing']);
 Route::post('/testing', [TestController::class, 'save']);
