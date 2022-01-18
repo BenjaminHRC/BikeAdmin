@@ -1,16 +1,17 @@
 var product;
+var productSelect;
 var product_form;
 var product_modal;
 var liste_products;
+var liste_products_select;
 var liste_brands;
 var liste_categories;
 
 const productProperties = (action, _id) => {
     switch (action) {
-
         case "new":
             product_form = $("#productForm");
-            $("#productId").val('');
+            $("#productId").val("");
             product_form[0].reset();
             generateOptionInput();
 
@@ -21,9 +22,9 @@ const productProperties = (action, _id) => {
             console.log("edit");
             product_form = $("#productForm");
             $.ajax({
-                url: 'viewProduct/' + _id,
-                type: 'GET',
-                dataType: 'json',
+                url: "viewProduct/" + _id,
+                type: "GET",
+                dataType: "json",
                 success: (json) => {
                     console.log(json[0]);
                     product = json[0];
@@ -40,7 +41,7 @@ const productProperties = (action, _id) => {
                 },
                 error: (error) => {
                     console.log(error);
-                }
+                },
             });
             break;
 
@@ -49,37 +50,37 @@ const productProperties = (action, _id) => {
             console.log(product_form[0]);
             console.log(formData);
             $.ajax({
-                url: 'saveProduct',
-                type: 'POST',
+                url: "saveProduct",
+                type: "POST",
                 data: formData,
                 processData: false,
                 contentType: false,
-                dataType: 'json',
+                dataType: "json",
                 headers: {
-                    'X-CSRF-TOKEN': crsf_token
+                    "X-CSRF-TOKEN": crsf_token,
                 },
                 success: (json) => {
                     console.log(json);
                     if (json.status == 0) {
                         liste_products.ajax.reload();
-                        $("#productModal").modal('hide');
+                        $("#productModal").modal("hide");
                     }
                 },
                 error: (error) => {
                     console.log(error);
-                }
+                },
             });
             break;
 
         case "delete":
             $.ajax({
-                url: 'deleteProduct/' + _id,
-                type: 'POST',
+                url: "deleteProduct/" + _id,
+                type: "POST",
                 cache: false,
                 headers: {
-                    'X-CSRF-Token': crsf_token
+                    "X-CSRF-Token": crsf_token,
                 },
-                dataType: 'json',
+                dataType: "json",
                 success: (json) => {
                     console.log(json);
                     if (json.status === 0) {
@@ -89,25 +90,47 @@ const productProperties = (action, _id) => {
                 error: (error) => {
                     console.log(error);
                     // swal("Erreur!", "Impossible de supprimer la NIP", "error");
-                }
+                },
             });
             break;
 
-        case "view":
-            console.log("guest_" + _id);
+        case "select":
+            $.ajax({
+                type: "GET",
+                url: "viewProduct/" + _id,
+                dataType: "json",
+                success: function (json) {
+                    console.log(json);
+                    productSelect = json;
+                    $("#orderItemProductId").val(productSelect.product_id);
+                    $("#orderItemFakeProductName").val(
+                        productSelect.product_name
+                    );
+                    $("#orderItemQuantity").val(1);
+                    $("#orderItemDiscount").val(0);
+                    $("#orderItemListPrice").val(productSelect.list_price);
+                    $("#orderItemTotal").val(productSelect.list_price);
+                    $("#productSelectModal").modal("hide");
+                    console.log($("#orderItemQuantity").val());
+                },
+            });
             break;
     }
-}
+};
 
-const generateOptionInput = () => {
+const productGenerateOptionInput = () => {
     $.each(liste_brands, (k, v) => {
-        $("#productBrandId").append($('<option value="' + v.id + '">').html(v.name));
+        $("#productBrandId").append(
+            $('<option value="' + v.id + '">').html(v.name)
+        );
     });
 
     $.each(liste_categories, (k, v) => {
-        $("#productCategoryId").append($('<option value="' + v.id + '">').html(v.name));
+        $("#productCategoryId").append(
+            $('<option value="' + v.id + '">').html(v.name)
+        );
     });
-}
+};
 
 $(() => {
     // datatable
@@ -117,58 +140,128 @@ $(() => {
         // pagingType: "full_numbers",
         columns: [
             {
-                data: "id", render: (data, type, row, meta) => {
+                data: "id",
+                render: (data, type, row, meta) => {
                     // console.log(data);
-                    return $('<span>')
-                        .addClass('btn btn-secondary btn-sm')
-                        .html(data === '' ? $('<i>').html('non renseigné') : data)
-                        .attr('onClick', "productProperties('view','" + row.id + "');")[0].outerHTML;
-                }
+                    return $("<span>")
+                        .addClass("btn btn-secondary btn-sm")
+                        .html(
+                            data === "" ? $("<i>").html("non renseigné") : data
+                        )
+                        .attr(
+                            "onClick",
+                            "productProperties('view','" + row.id + "');"
+                        )[0].outerHTML;
+                },
             },
             {
-                data: "name", render: (data, type, row, meta) => {
+                data: "name",
+                render: (data, type, row, meta) => {
                     return data != null ? data : "-";
-                }
+                },
             },
             {
-                data: "model_year", render: (data, type, row, meta) => {
+                data: "model_year",
+                render: (data, type, row, meta) => {
                     return data != null ? data : "-";
-                }
+                },
             },
             {
-                data: "price", render: (data, type, row, meta) => {
+                data: "price",
+                render: (data, type, row, meta) => {
                     return data != null ? data : "-";
-                }
+                },
             },
             {
-                data: "brand_id", render: (data, type, row, meta) => {
+                data: "brand_id",
+                render: (data, type, row, meta) => {
                     return data != null ? data : "-";
-                }
+                },
             },
             {
-                data: "category", render: (data, type, row, meta) => {
+                data: "category",
+                render: (data, type, row, meta) => {
                     return data != null ? data : "-";
-                }
+                },
             },
             {
                 data: "id",
                 render: (data, type, row) => {
                     var edit = $("<button>")
                         .attr("class", "btn btn-info btn-sm my-1")
-                        .attr('onClick', "productProperties('edit'," + row.id + ")")
-                        .html($("<i>").addClass("fas fa-fw fa-edit"))
-                    [0].outerHTML;
+                        .attr(
+                            "onClick",
+                            "productProperties('edit'," + row.id + ")"
+                        )
+                        .html(
+                            $("<i>").addClass("fas fa-fw fa-edit")
+                        )[0].outerHTML;
 
                     var del = $("<button>")
                         .attr("class", "btn btn-danger btn-sm")
-                        .attr('onClick', "productProperties('delete'," + row.id + ")")
-                        .html($("<i>").addClass("fas fa-fw fa-backspace"))
-                    [0].outerHTML;
+                        .attr(
+                            "onClick",
+                            "productProperties('delete'," + row.id + ")"
+                        )
+                        .html(
+                            $("<i>").addClass("fas fa-fw fa-backspace")
+                        )[0].outerHTML;
 
                     return edit + "&nbsp;" + del;
                 },
-            }
-        ]
+            },
+        ],
+    });
+
+    liste_products_select = $("#liste_products_select").DataTable({
+        order: [[0, "desc"]],
+        ajax: "listProduct",
+        columns: [
+            {
+                data: "product_name",
+                render: (data, type, row, meta) => {
+                    return data != null ? data : "-";
+                },
+            },
+            {
+                data: "brand.brand_name",
+                render: (data, type, row, meta) => {
+                    return data != null ? data : "-";
+                },
+            },
+            {
+                data: "category.category_name",
+                render: (data, type, row, meta) => {
+                    return data != null ? data : "-";
+                },
+            },
+            {
+                data: "model_year",
+                render: (data, type, row, meta) => {
+                    return data != null ? data : "-";
+                },
+            },
+            {
+                data: "list_price",
+                render: (data, type, row, meta) => {
+                    return data != null ? data : "-";
+                },
+            },
+            {
+                data: "product_id",
+                render: (data, type, row) => {
+                    return (edit = $("<button>")
+                        .attr("class", "btn btn-success btn-sm my-1")
+                        .attr(
+                            "onClick",
+                            "productProperties('select'," + row.product_id + ")"
+                        )
+                        .html(
+                            $("<i>").addClass("fas fa-fw fa-mouse-pointer")
+                        )[0].outerHTML);
+                },
+            },
+        ],
     });
 
     $.ajax({
@@ -182,7 +275,7 @@ $(() => {
         },
         error: (error) => {
             console.log(error);
-        }
+        },
     });
 
     $("#addProduct").click(() => {

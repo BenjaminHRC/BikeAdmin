@@ -12,10 +12,29 @@
             </div>
         </div>
         <div class="card-body">
+
+            <ul class="nav nav-tabs">
+                <li class="nav-item">
+                    <a class="nav-link active" data-toggle="tab" href="#one">Active</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" data-toggle="tab" href="#two">Link</a>
+                </li>
+            </ul>
+
+            <div class="tab-content">
+                <div class="tab-pane fade in active" id="one">
+                    <p>Tab one content</p>
+                </div>
+                <div class="tab-pane fade" id="two">
+                    <p>Tab two content</p>
+                </div>
+            </div>
+
             <table class="table table-bordered w-100" id="liste_orders">
                 <thead>
                     <tr>
-                        <th>id</th>
+                        <th>N°</th>
                         <th>Status</th>
                         <th>Date</th>
                         <th>Date demande</th>
@@ -23,7 +42,6 @@
                         <th>Client</th>
                         <th>Magasin</th>
                         <th>Agent</th>
-                        <th>Actions</th>
                     </tr>
                 </thead>
                 <tbody></tbody>
@@ -34,9 +52,14 @@
 <!-- /.container-fluid -->
 <!-- Include modals -->
 @include('element.modals.modal_orders')
+@include('element.modals.modal_customers')
+@include('element.modals.modal_products')
 <!-- End of Include modals -->
 @endsection
 
 @push('scripts')
 <script src="js/sales/orders.js"></script>
+<script src="js/sales/order_items.js"></script>
+<script src="js/sales/customers.js"></script>
+<script src="js/production/products.js"></script>
 @endpush

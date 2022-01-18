@@ -6,40 +6,40 @@ use Illuminate\Database\Eloquent\Model;
 
 class Dao_category extends Model
 {
-    private $id = null;
-    private $name = null;
+    private $category_id = null;
+    private $category_name = null;
 
-    function __construct($id, $name)
+    function __construct($category_id, $category_name)
     {
-        $this->id = $id;
-        $this->name = $name;
+        $this->category_id = $category_id;
+        $this->category_name = $category_name;
     }
 
     function getCategoryId()
     {
-        return $this->id;
+        return $this->category_id;
     }
 
-    function setCategoryId($id)
+    function setCategoryId($category_id)
     {
-        return $this->id = $id;
+        return $this->category_id = $category_id;
     }
 
     function getCategoryName()
     {
-        return $this->name;
+        return $this->category_name;
     }
 
-    function setCategoryName($name)
+    function setCategoryName($category_name)
     {
-        return $this->name = $name;
+        return $this->category_name = $category_name;
     }
 
     public function toJSONPrivate()
     {
         return json_encode([
-            'id' => $this->id,
-            'name' => $this->name
+            'category_id' => $this->category_id,
+            'category_name' => $this->category_name
         ]);
     }
 }

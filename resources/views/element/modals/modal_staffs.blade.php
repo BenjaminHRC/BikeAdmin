@@ -22,15 +22,14 @@
                     <label for="phone">Phone</label>
                     <input type="text" name="phone" class="form-control" id="staffPhone" required>
                     <br>
-                    <label for="active">Active</label>
-                    <input type="text" name="active" class="form-control" id="staffActive" required>
-                    <br>
                     <label for="store_id">Magasin</label>
                     <select type="text" name="store_id" class="form-control" id="staffStoreId" required></select>
                     <br>
                     <label for="manager_id">Manageur</label>
-                    <input type="text" name="manager_id" class="form-control" id="staffManagerId" required>
+                    <select type="text" name="manager_id" class="form-control" id="staffManagerId" empty="*** Manager ***" required></select>
                     <br>
+                    <label for="active">Active</label>
+                    <input type="checkbox" name="active" value="0" id="staffActive" required>
                 </form>
             </div>
             <div class="modal-footer">

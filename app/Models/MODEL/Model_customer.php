@@ -35,7 +35,8 @@ class Model_customer extends Model
     {
         try {
             DB::update(
-                'UPDATE sales.customers set first_name = ?, last_name = ?, phone = ?, email = ?, street = ?, city = ?, state = ?, zip_code = ? WHERE customer_id = ?',
+                'UPDATE sales.customers set first_name = ?, last_name = ?, phone = ?, email = ?, street = ?, city = ?, state = ?, zip_code = ? 
+                WHERE customer_id = ?',
                 [
                     $customer->getCustomerFirstName(),
                     $customer->getCustomerLastName(),
@@ -59,7 +60,8 @@ class Model_customer extends Model
     function findAll()
     {
         $query = DB::select(
-            'SELECT customer_id, first_name, last_name, phone, email, street, city, state, zip_code FROM sales.customers',
+            'SELECT customer_id, first_name, last_name, phone, email, street, city, state, zip_code 
+            FROM sales.customers',
         );
 
         $results = [];
@@ -85,10 +87,28 @@ class Model_customer extends Model
     function findIt($id)
     {
         try {
-            $result = DB::select(
-                'SELECT customer_id, first_name, last_name, phone, email, street, city, state, zip_code FROM sales.customers WHERE customer_id = ?',
+            $query = DB::select(
+                'SELECT customer_id, first_name, last_name, phone, email, street, city, state, zip_code 
+                FROM sales.customers 
+                WHERE customer_id = ?',
                 [$id]
             );
+
+            foreach ($query as  $value) {
+                $customer  = new Dao_customer(
+                    $value->customer_id,
+                    $value->first_name,
+                    $value->last_name,
+                    $value->phone,
+                    $value->email,
+                    $value->street,
+                    $value->city,
+                    $value->state,
+                    $value->zip_code
+                );
+                $results = $customer;
+            }
+            return $results;
         } catch (\Exception $e) {
             $result = $e;
         }

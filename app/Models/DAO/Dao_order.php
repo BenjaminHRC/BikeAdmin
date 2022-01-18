@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Dao_order extends Model
 {
-    private $id = null;
+    private $order_id = null;
     private $order_status = null;
     private $order_date = null;
     private $required_date = null;
@@ -14,11 +14,13 @@ class Dao_order extends Model
     private $customer_id = null;
     private $store_id = null;
     private $staff_id = null;
+    private $customer = null;
+    private $store = null;
+    private $staff = null;
 
-
-    function __construct($id, $order_status, $order_date, $required_date, $shipped_date, $customer_id, $store_id, $staff_id)
+    function __construct($order_id, $order_status, $order_date, $required_date, $shipped_date, $customer_id, $store_id, $staff_id)
     {
-        $this->id = $id;
+        $this->order_id = $order_id;
         $this->order_status = $order_status;
         $this->order_date = $order_date;
         $this->required_date = $required_date;
@@ -26,16 +28,19 @@ class Dao_order extends Model
         $this->customer_id = $customer_id;
         $this->store_id = $store_id;
         $this->staff_id = $staff_id;
+        $this->customer = null;
+        $this->store = null;
+        $this->staff = null;
     }
 
     function getOrderId()
     {
-        return $this->id;
+        return $this->order_id;
     }
 
-    function setOrderId($id)
+    function setOrderId($order_id)
     {
-        return $this->id = $id;
+        return $this->order_id = $order_id;
     }
 
     function getOrderStatus()
@@ -108,17 +113,53 @@ class Dao_order extends Model
         return $this->staff_id = $staff_id;
     }
 
+    function getCustomer()
+    {
+        return $this->customer;
+    }
+
+    function setCustomer($customer)
+    {
+        //var_dump($customer);
+        return $this->customer = $customer;
+    }
+
+    function getStore()
+    {
+        return $this->store;
+    }
+
+    function setStore($store)
+    {
+        //var_dump($customer);
+        return $this->store = $store;
+    }
+
+    function getStaff()
+    {
+        return $this->staff;
+    }
+
+    function setStaff($staff)
+    {
+        //var_dump($customer);
+        return $this->staff = $staff;
+    }
+
     public function toJSONPrivate()
     {
         return json_encode([
-            'id' => $this->id,
+            'order_id' => $this->order_id,
             'order_status' => $this->order_status,
             'order_date' => $this->order_date,
             'required_date' => $this->required_date,
             'shipped_date' => $this->shipped_date,
             'customer_id' => $this->customer_id,
             'store_id' => $this->store_id,
-            'staff_id' => $this->staff_id
+            'staff_id' => $this->staff_id,
+            'customer' => json_decode($this->customer->toJSONPrivate()),
+            'store' => json_decode($this->store->toJSONPrivate()),
+            'staff' => json_decode($this->staff->toJSONPrivate()),
         ]);
     }
 }

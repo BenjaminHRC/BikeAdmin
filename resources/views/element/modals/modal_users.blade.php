@@ -9,7 +9,7 @@
             </div>
             <div class="modal-body">
                 <form id="userForm" action="test" enctype="multipart/form-data" method="post">
-                <input type="hidden" name="id" class="form-control" id="userId">
+                    <input type="hidden" name="id" class="form-control" id="userId">
                     <label for="name">Nom</label>
                     <input type="text" name="name" class="form-control" id="userName" required>
                     <br>
@@ -19,7 +19,8 @@
                     <label for="password">Mot de passe</label>
                     <input type="password" name="password" class="form-control" id="userPassword" required>
                     <br>
-                    <!-- <button id="userBtn" type="submit">Submit</button> -->
+                    <label for="role_id"></label>
+                    <select name="role_id" id="userRoleId" class="form-control"></select>
                 </form>
             </div>
             <div class="modal-footer">

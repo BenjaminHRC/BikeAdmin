@@ -36,3 +36,33 @@
         </div>
     </div>
 </div>
+
+<div id="productSelectModal" class="modal" tabindex="-1">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Selection de produit</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <table id="liste_products_select" class="table table-bordered w-100">
+                    <thead>
+                        <th>Nom</th>
+                        <th>Marque</th>
+                        <th>Categorie</th>
+                        <th>Année du modéle</th>
+                        <th>Prix</th>
+                        <th>Actions</th>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+                <button type="button" class="btn btn-primary">Sauvegarder</button>
+            </div>
+        </div>
+    </div>
+</div>

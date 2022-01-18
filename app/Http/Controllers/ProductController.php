@@ -45,7 +45,7 @@ class ProductController extends Controller
     function view($id)
     {
         if ($id != null && !empty($id)) {
-            return $this->Products->findIt($id);
+            return $this->Products->findIt($id)->toJSONPrivate();
         } else {
             return ["status" => 1, "message" => "ID null ou undefined"];
         }
@@ -54,7 +54,7 @@ class ProductController extends Controller
     function list()
     {
         $query = $this->Products->findAll();
-
+        // var_dump($query);
         $values = [];
 
         foreach ($query as $value) {
@@ -117,5 +117,33 @@ class ProductController extends Controller
         }
 
         return json_encode($results);
+    }
+
+    function getTopProducts()
+    {
+        try {
+            $query = $this->Products->top_products();
+            $result = [];
+            foreach ($query as $key => $value) {
+                array_push($result, $value);
+            }
+            return json_encode($result);
+        } catch (\Exception $e) {
+            return $e;
+        }
+    }
+
+    function getNbProducts()
+    {
+        try {
+            $query = $this->Products->nb_products();
+            $result = [];
+            foreach ($query as $key => $value) {
+                array_push($result, $value);
+            }
+            return json_encode($result);
+        } catch (\Exception $e) {
+            return $e;
+        }
     }
 }

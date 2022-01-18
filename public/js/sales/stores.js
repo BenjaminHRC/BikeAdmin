@@ -5,10 +5,9 @@ var liste_stores;
 
 const storeProperties = (action, _id) => {
     switch (action) {
-
         case "new":
             store_form = $("#storeForm");
-            $("#storeId").val('');
+            $("#storeId").val("");
             store_form[0].reset();
 
             $("#storeModal").modal();
@@ -18,25 +17,27 @@ const storeProperties = (action, _id) => {
             console.log("edit");
             store_form = $("#storeForm");
             $.ajax({
-                url: 'viewStore/' + _id,
-                type: 'GET',
-                dataType: 'json',
+                url: "viewStore/" + _id,
+                type: "GET",
+                dataType: "json",
                 success: (json) => {
-                    console.log(json[0]);
-                    store = json[0];
+                    console.log(json);
+                    store = json;
 
                     $("#storeId").val(store.store_id);
                     $("#storeName").val(store.store_name);
-                    $("#storeModelYear").val(store.model_year);
-                    $("#storeListPrice").val(store.list_price);
-                    $("#storeBrandId").val(store.brand_id);
-                    $("#storeCategoryId").val(store.category_id);
+                    $("#storePhone").val(store.phone);
+                    $("#storeEmail").val(store.email);
+                    $("#storeStreet").val(store.street);
+                    $("#storeCity").val(store.city);
+                    $("#storeState").val(store.state);
+                    $("#storeZipCode").val(store.zip_code);
 
                     $("#storeModal").modal();
                 },
                 error: (error) => {
                     console.log(error);
-                }
+                },
             });
             break;
 
@@ -45,37 +46,37 @@ const storeProperties = (action, _id) => {
             console.log(store_form[0]);
             console.log(formData);
             $.ajax({
-                url: 'saveStore',
-                type: 'POST',
+                url: "saveStore",
+                type: "POST",
                 data: formData,
                 processData: false,
                 contentType: false,
-                dataType: 'json',
+                dataType: "json",
                 headers: {
-                    'X-CSRF-TOKEN': crsf_token
+                    "X-CSRF-TOKEN": crsf_token,
                 },
                 success: (json) => {
                     console.log(json);
                     if (json.status == 0) {
                         liste_stores.ajax.reload();
-                        $("#storeModal").modal('hide');
+                        $("#storeModal").modal("hide");
                     }
                 },
                 error: (error) => {
                     console.log(error);
-                }
+                },
             });
             break;
 
         case "delete":
             $.ajax({
-                url: 'deleteStore/' + _id,
-                type: 'POST',
+                url: "deleteStore/" + _id,
+                type: "POST",
                 cache: false,
                 headers: {
-                    'X-CSRF-Token': crsf_token
+                    "X-CSRF-Token": crsf_token,
                 },
-                dataType: 'json',
+                dataType: "json",
                 success: (json) => {
                     console.log(json);
                     if (json.status === 0) {
@@ -85,7 +86,7 @@ const storeProperties = (action, _id) => {
                 error: (error) => {
                     console.log(error);
                     // swal("Erreur!", "Impossible de supprimer la NIP", "error");
-                }
+                },
             });
             break;
 
@@ -93,7 +94,7 @@ const storeProperties = (action, _id) => {
             console.log("guest_" + _id);
             break;
     }
-}
+};
 
 $(() => {
     // datatable
@@ -102,69 +103,89 @@ $(() => {
         ajax: "listStore",
         columns: [
             {
-                data: "id", render: (data, type, row, meta) => {
+                data: "store_id",
+                render: (data, type, row, meta) => {
                     // console.log(data);
-                    return $('<span>')
-                        .addClass('btn btn-secondary btn-sm')
-                        .html(data === '' ? $('<i>').html('non renseigné') : data)
-                        .attr('onClick', "storeProperties('view','" + row.id + "');")[0].outerHTML;
-                }
+                    return $("<span>")
+                        .addClass("btn btn-secondary btn-sm")
+                        .html(
+                            data === "" ? $("<i>").html("non renseigné") : data
+                        )
+                        .attr(
+                            "onClick",
+                            "storeProperties('view','" + row.id + "');"
+                        )[0].outerHTML;
+                },
             },
             {
-                data: "name", render: (data, type, row, meta) => {
-
+                data: "store_name",
+                render: (data, type, row, meta) => {
                     return data != null ? data : "-";
-                }
+                },
             },
             {
-                data: "phone", render: (data, type, row, meta) => {
+                data: "phone",
+                render: (data, type, row, meta) => {
                     return data != null ? data : "-";
-                }
+                },
             },
             {
-                data: "email", render: (data, type, row, meta) => {
+                data: "email",
+                render: (data, type, row, meta) => {
                     return data != null ? data : "-";
-                }
+                },
             },
             {
-                data: "street", render: (data, type, row, meta) => {
+                data: "street",
+                render: (data, type, row, meta) => {
                     return data != null ? data : "-";
-                }
+                },
             },
             {
-                data: "city", render: (data, type, row, meta) => {
+                data: "city",
+                render: (data, type, row, meta) => {
                     return data != null ? data : "-";
-                }
+                },
             },
             {
-                data: "state", render: (data, type, row, meta) => {
+                data: "state",
+                render: (data, type, row, meta) => {
                     return data != null ? data : "-";
-                }
+                },
             },
             {
-                data: "zip_code", render: (data, type, row, meta) => {
+                data: "zip_code",
+                render: (data, type, row, meta) => {
                     return data != null ? data : "-";
-                }
+                },
             },
             {
-                data: "id",
+                data: "store_id",
                 render: (data, type, row) => {
                     var edit = $("<button>")
                         .attr("class", "btn btn-info btn-sm my-1")
-                        .attr('onClick', "storeProperties('edit'," + row.id + ")")
-                        .html($("<i>").addClass("fas fa-fw fa-edit"))
-                    [0].outerHTML;
+                        .attr(
+                            "onClick",
+                            "storeProperties('edit'," + row.store_id + ")"
+                        )
+                        .html(
+                            $("<i>").addClass("fas fa-fw fa-edit")
+                        )[0].outerHTML;
 
                     var del = $("<button>")
                         .attr("class", "btn btn-danger btn-sm")
-                        .attr('onClick', "storeProperties('delete'," + row.id + ")")
-                        .html($("<i>").addClass("fas fa-fw fa-backspace"))
-                    [0].outerHTML;
+                        .attr(
+                            "onClick",
+                            "storeProperties('delete'," + row.store_id + ")"
+                        )
+                        .html(
+                            $("<i>").addClass("fas fa-fw fa-backspace")
+                        )[0].outerHTML;
 
                     return edit + "&nbsp;" + del;
                 },
-            }
-        ]
+            },
+        ],
     });
 
     $("#addStore").click(() => {

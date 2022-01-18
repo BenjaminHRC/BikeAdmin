@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Dao_staff extends Model
 {
-    private $id = null;
+    private $staff_id = null;
     private $first_name = null;
     private $last_name = null;
     private $email = null;
@@ -14,10 +14,12 @@ class Dao_staff extends Model
     private $active = null;
     private $store_id = null;
     private $manager_id = null;
+    private $store = null;
+    private $manager = null;
 
-    function __construct($id, $first_name, $last_name, $email, $phone, $active, $store_id, $manager_id)
+    function __construct($staff_id, $first_name, $last_name, $email, $phone, $active, $store_id, $manager_id)
     {
-        $this->id = $id;
+        $this->staff_id = $staff_id;
         $this->first_name = $first_name;
         $this->last_name = $last_name;
         $this->email = $email;
@@ -29,12 +31,12 @@ class Dao_staff extends Model
 
     function getStaffId()
     {
-        return $this->id;
+        return $this->staff_id;
     }
 
-    function setStaffId($id)
+    function setStaffId($staff_id)
     {
-        return $this->id = $id;
+        return $this->staff_id = $staff_id;
     }
 
     function getStaffFirstName()
@@ -107,17 +109,58 @@ class Dao_staff extends Model
         return $this->manager_id = $manager_id;
     }
 
+    function getStaffStore()
+    {
+        return $this->store;
+    }
+
+    function setStaffStore($store)
+    {
+        // var_dump($store);
+        return $this->store = $store;
+    }
+
+    function getStaffManager()
+    {
+        return $this->manager;
+    }
+
+    function setStaffManager($manager)
+    {
+        // var_dump($manager);
+        return $this->manager = $manager;
+    }
+
     public function toJSONPrivate()
     {
-        return json_encode([
-            'id' => $this->id,
-            'first_name' => $this->first_name,
-            'last_name' => $this->last_name,
-            'email' => $this->email,
-            'phone' => $this->phone,
-            'active' => $this->active,
-            'store_id' => $this->store_id,
-            'manager_id' => $this->manager_id
-        ]);
+        if ($this->manager != null && !empty($this->manager)) {
+            // var_dump($this->manager);
+            return json_encode([
+                'staff_id' => $this->staff_id,
+                'first_name' => $this->first_name,
+                'last_name' => $this->last_name,
+                'email' => $this->email,
+                'phone' => $this->phone,
+                'active' => $this->active,
+                'store_id' => $this->store_id,
+                'manager_id' => $this->manager_id,
+                'store' => json_decode($this->store->toJSONPrivate()),
+                'manager' => $this->manager->toJSONPrivate(),
+            ]);
+        } else if ($this->store != null && !empty($this->store)) {
+            // var_dump($this->manager);
+            return json_encode([
+                'staff_id' => $this->staff_id,
+                'first_name' => $this->first_name,
+                'last_name' => $this->last_name,
+                'email' => $this->email,
+                'phone' => $this->phone,
+                'active' => $this->active,
+                'store_id' => $this->store_id,
+                'manager_id' => $this->manager_id,
+                'store' => json_decode($this->store->toJSONPrivate()),
+                // 'manager' => json_decode($this->manager->toJSONPrivate()),
+            ]);
+        }
     }
 }

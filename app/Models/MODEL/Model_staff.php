@@ -3,6 +3,7 @@
 namespace App\Models\MODEL;
 
 use App\Models\DAO\Dao_staff;
+use App\Models\DAO\Dao_store;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 
@@ -56,16 +57,21 @@ class Model_staff extends Model
 
     function findAll()
     {
-        $query = DB::select(
-            "SELECT sta.staff_id, sta.first_name, sta.last_name, sta.email, sta.phone, sta.active, sto.store_name, CONCAT(sta1.first_name, ' ' ,sta1.last_name) as manager_id
-            FROM sales.staffs sta
-            LEFT JOIN sales.stores sto ON sto.store_id = sta.store_id
-            LEFT JOIN sales.staffs sta1 ON sta1.staff_id = sta.manager_id",
+        $queryStaff = DB::select(
+            "SELECT sta.staff_id, 
+            sta.first_name, 
+            sta.last_name, 
+            sta.email, 
+            sta.phone, 
+            sta.active, 
+            sta.store_id, 
+            sta.manager_id
+            FROM sales.staffs sta",
         );
 
         $results = [];
 
-        foreach ($query as $value) {
+        foreach ($queryStaff as $value) {
             $staff = new Dao_staff(
                 $value->staff_id,
                 $value->first_name,
@@ -73,27 +79,156 @@ class Model_staff extends Model
                 $value->email,
                 $value->phone,
                 $value->active,
-                $value->store_name,
+                $value->store_id,
                 $value->manager_id
             );
+            $queryStore = DB::select(
+                "SELECT sto.store_id,
+                sto.store_name, 
+                sto.phone,
+                sto.email,
+                sto.street,
+                sto.city,
+                sto.state,
+                sto.zip_code
+                FROM sales.stores sto
+                WHERE sto.store_id = ?",
+                [$staff->getStaffStoreId()]
+            );
+            // $queryManager = DB::select(
+            //     "SELECT sta.staff_id, 
+            //     sta.first_name, 
+            //     sta.last_name, 
+            //     sta.email, 
+            //     sta.phone, 
+            //     sta.active, 
+            //     sta.store_id, 
+            //     sta.manager_id
+            //     FROM sales.staffs sta
+            //     WHERE sta.staff_id = ?",
+            //     [$staff->getStaffManagerId()]
+            // );
+            // var_dump($staff->getStaffManagerId());
+            foreach ($queryStore as $value) {
+                $store = new Dao_store(
+                    $value->store_id,
+                    $value->store_name,
+                    $value->phone,
+                    $value->email,
+                    $value->street,
+                    $value->city,
+                    $value->state,
+                    $value->zip_code,
+                );
+                $staff->setStaffStore($store);
+            }
+            // var_dump($queryManager);
+            // foreach ($queryManager as $value) {
+            //     $manager = new Dao_staff(
+            //         $value->staff_id,
+            //         $value->first_name,
+            //         $value->last_name,
+            //         $value->email,
+            //         $value->phone,
+            //         $value->active,
+            //         $value->store_id,
+            //         $value->manager_id
+            //     );
+            //     // var_dump($manager);
+            //     $staff->setStaffManager($manager);
+            // }
             array_push($results, $staff);
         }
-
         return $results;
     }
 
     function findIt($id)
     {
         try {
-            $result = DB::select(
-                'SELECT staff_id, first_name, last_name, email, phone, active, store_id, manager_id FROM sales.staffs WHERE staff_id = ?',
+            $queryStaff = DB::select(
+                "SELECT sta.staff_id, 
+                sta.first_name, 
+                sta.last_name, 
+                sta.email, 
+                sta.phone, 
+                sta.active, 
+                sta.store_id, 
+                sta.manager_id
+                FROM sales.staffs sta
+                WHERE sta.staff_id = ?",
                 [$id]
             );
-        } catch (\Exception $e) {
-            $result = $e;
-        }
 
-        return $result;
+            foreach ($queryStaff as $value) {
+                $staff = new Dao_staff(
+                    $value->staff_id,
+                    $value->first_name,
+                    $value->last_name,
+                    $value->email,
+                    $value->phone,
+                    $value->active,
+                    $value->store_id,
+                    $value->manager_id
+                );
+                // var_dump($staff);
+                $queryStore = DB::select(
+                    "SELECT sto.store_id,
+                    sto.store_name, 
+                    sto.phone,
+                    sto.email,
+                    sto.street,
+                    sto.city,
+                    sto.state,
+                    sto.zip_code
+                    FROM sales.stores sto
+                    WHERE sto.store_id = ?",
+                    [$staff->getStaffStoreId()]
+                );
+                $queryManager = DB::select(
+                    "SELECT sta.staff_id, 
+                    sta.first_name, 
+                    sta.last_name, 
+                    sta.email, 
+                    sta.phone, 
+                    sta.active, 
+                    sta.store_id, 
+                    sta.manager_id
+                    FROM sales.staffs sta
+                    WHERE sta.staff_id = ?",
+                    [$staff->getStaffManagerId()]
+                );
+                foreach ($queryStore as $value) {
+                    $store = new Dao_store(
+                        $value->store_id,
+                        $value->store_name,
+                        $value->phone,
+                        $value->email,
+                        $value->street,
+                        $value->city,
+                        $value->state,
+                        $value->zip_code,
+                    );
+                    $staff->setStaffStore($store);
+                }
+                foreach ($queryManager as $value) {
+                    $manager = new Dao_staff(
+                        $value->staff_id,
+                        $value->first_name,
+                        $value->last_name,
+                        $value->email,
+                        $value->phone,
+                        $value->active,
+                        $value->store_id,
+                        $value->manager_id
+                    );
+                    $staff->setStaffManager($manager);
+                }
+                $results = $staff;
+            }
+            return $results;
+        } catch (\Exception $e) {
+            return $e;
+        }
     }
 
     function dropIt($id)
@@ -109,5 +244,20 @@ class Model_staff extends Model
         }
 
         return $result;
+    }
+
+    function top_staffs($date)
+    {
+        try {
+            $query = DB::select('SELECT * FROM sales.best_staff_year(\'' . $date . '\')');
+
+            $result = [];
+            foreach ($query as $value) {
+                array_push($result, $value);
+            }
+            return $result;
+        } catch (\Exception $e) {
+            return $e;
+        }
     }
 }

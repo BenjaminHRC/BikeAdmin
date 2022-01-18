@@ -16,7 +16,8 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
     <!-- Custom styles for this template-->
     <link href="sb-admin/css/sb-admin-2.min.css" rel="stylesheet">
-
+    <link href="css/bikeadmin.css" rel="stylesheet">
+    <link rel="stylesheet" href="my-plugins/apexChart/dist/apexcharts.css">
 </head>
 
 <body id="page-top">
@@ -73,15 +74,16 @@
     <script src="sb-admin/vendor/datatables/dataTables.bootstrap4.min.js"></script>
     <script src="my-plugins/moment/min/moment-with-locales.min.js"></script>
     <!-- Page level plugins -->
-    <!-- <script src="sb-admin/vendor/chart.js/Chart.min.js"></script> -->
+
 
     <!-- Page level custom scripts -->
     <!-- <script src="sb-admin/js/demo/chart-area-demo.js"></script>
     <script src="sb-admin/js/demo/chart-pie-demo.js"></script> -->
+    <?php var_dump(session()->all()); ?>
     <script src="js/common.js"></script>
     @stack('scripts')
     <script>
-    var crsf_token = "<?php echo csrf_token() ?>";
+        var crsf_token = "<?php echo csrf_token() ?>";
     </script>
 </body>
 

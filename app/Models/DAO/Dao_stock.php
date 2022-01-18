@@ -9,6 +9,8 @@ class Dao_stock extends Model
     private $store_id = null;
     private $product_id = null;
     private $quantity = null;
+    private $store = null;
+    private $product = null;
 
     function __construct($store_id, $product_id, $quantity)
     {
@@ -47,12 +49,34 @@ class Dao_stock extends Model
         return $this->quantity = $quantity;
     }
 
+    function getStore()
+    {
+        return $this->store;
+    }
+
+    function setStore($store)
+    {
+        return $this->store = $store;
+    }
+
+    function getProduct()
+    {
+        return $this->product;
+    }
+
+    function setProduct($product)
+    {
+        return $this->product = $product;
+    }
+
     public function toJSONPrivate()
     {
         return json_encode([
-            'store_id' => $this->id,
+            'store_id' => $this->store_id,
             'product_id' => $this->product_id,
-            'quantity' => $this->quantity
+            'quantity' => $this->quantity,
+            'store' => json_decode($this->store->toJSONPrivate()),
+            'product' => json_decode($this->product->toJSONPrivate())
         ]);
     }
 }

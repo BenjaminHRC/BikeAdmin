@@ -6,8 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Dao_store extends Model
 {
-    private $id = null;
-    private $name = null;
+    private $store_id = null;
+    private $store_name = null;
     private $phone = null;
     private $email = null;
     private $street = null;
@@ -15,10 +15,10 @@ class Dao_store extends Model
     private $state = null;
     private $zip_code = null;
 
-    function __construct($id, $name, $phone, $email, $street, $city, $state, $zip_code)
+    function __construct($store_id, $store_name, $phone, $email, $street, $city, $state, $zip_code)
     {
-        $this->id = $id;
-        $this->name = $name;
+        $this->store_id = $store_id;
+        $this->store_name = $store_name;
         $this->phone = $phone;
         $this->email = $email;
         $this->street = $street;
@@ -29,22 +29,22 @@ class Dao_store extends Model
 
     function getStoreId()
     {
-        return $this->id;
+        return $this->store_id;
     }
 
-    function setStoreId($id)
+    function setStoreId($store_id)
     {
-        return $this->id = $id;
+        return $this->store_id = $store_id;
     }
 
     function getStoreName()
     {
-        return $this->name;
+        return $this->store_name;
     }
 
-    function setStoreName($name)
+    function setStoreName($store_name)
     {
-        return $this->name = $name;
+        return $this->store_name = $store_name;
     }
 
     function getStorePhone()
@@ -120,8 +120,8 @@ class Dao_store extends Model
     public function toJSONPrivate()
     {
         return json_encode([
-            'id' => $this->id,
-            'name' => $this->name,
+            'store_id' => $this->store_id,
+            'store_name' => $this->store_name,
             'phone' => $this->phone,
             'email' => $this->email,
             'street' => $this->street,

@@ -44,30 +44,35 @@ class Model_brand extends Model
 
     function findAll()
     {
-        $query = DB::select(
-            'SELECT brand_id, brand_name FROM production.brands',
+        $queryBrand = DB::select(
+            'SELECT b.brand_id, b.brand_name FROM production.brands b',
         );
-
         $results = [];
-
-        foreach ($query as $value) {
+        foreach ($queryBrand as $value) {
             $brand = new Dao_brand(
                 $value->brand_id,
                 $value->brand_name
             );
-            array_push($results, $brand);
+            $results[] = $brand;
         }
-
         return $results;
     }
 
     function findIt($id)
     {
         try {
-            $result = DB::select(
-                'SELECT brand_id, brand_name FROM production.brands WHERE brand_id = ?',
+            $queryBrand = DB::select(
+                'SELECT b.brand_id, b.brand_name FROM production.brands b WHERE brand_id = ?',
                 [$id]
             );
+            foreach ($queryBrand as $value) {
+                $brand = new Dao_brand(
+                    $value->brand_id,
+                    $value->brand_name
+                );
+                $results = $brand;
+            }
+            return $results;
         } catch (\Exception $e) {
             $result = $e;
         }
@@ -88,5 +93,17 @@ class Model_brand extends Model
         }
 
         return $result;
+    }
+
+    function top_brands()
+    {
+        try {
+            $query = DB::select(
+                'SELECT * FROM production.view_top_brand'
+            );
+            return $query;
+        } catch (\Exception $e) {
+            return $e;
+        }
     }
 }

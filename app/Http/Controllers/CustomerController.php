@@ -22,7 +22,7 @@ class CustomerController extends Controller
     function view($id)
     {
         if ($id != null && !empty($id)) {
-            return $this->Customers->findIt($id);
+            return $this->Customers->findIt($id)->toJSONPrivate();
         } else {
             return ['status' => 1, 'message' => 'ID null ou undefined'];
         }

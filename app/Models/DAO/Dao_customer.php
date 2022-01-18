@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Dao_customer extends Model
 {
-    private $id = null;
+    private $customer_id = null;
     private $first_name = null;
     private $last_name = null;
     private $phone = null;
@@ -16,9 +16,9 @@ class Dao_customer extends Model
     private $state = null;
     private $zip_code = null;
 
-    function __construct($id, $first_name, $last_name, $phone, $email, $street, $city, $state, $zip_code)
+    function __construct($customer_id, $first_name, $last_name, $phone, $email, $street, $city, $state, $zip_code)
     {
-        $this->id = $id;
+        $this->customer_id = $customer_id;
         $this->first_name = $first_name;
         $this->last_name = $last_name;
         $this->phone = $phone;
@@ -34,9 +34,9 @@ class Dao_customer extends Model
         return $this->id;
     }
 
-    function setCustomerId($id)
+    function setCustomerId($customer_id)
     {
-        return $this->id = $id;
+        return $this->customer_id = $customer_id;
     }
 
     function getCustomerFirstName()
@@ -132,7 +132,7 @@ class Dao_customer extends Model
     public function toJSONPrivate()
     {
         return json_encode([
-            'id' => $this->id,
+            'customer_id' => $this->customer_id,
             'first_name' => $this->first_name,
             'last_name' => $this->last_name,
             'phone' => $this->phone,

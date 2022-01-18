@@ -20,15 +20,22 @@ class StaffController extends Controller
 
     function index()
     {
-        $query = $this->Stores->findAll();
+        $queryStore = $this->Stores->findAll();
+        $queryStaff = $this->Staffs->findAll();
 
-        $values = [];
+        $valuesStore = [];
+        $valuesStaff = [];
 
-        foreach ($query as $value) {
-            array_push($values, json_decode($value->toJSONPrivate(), true));
+        foreach ($queryStore as $value) {
+            array_push($valuesStore, json_decode($value->toJSONPrivate(), true));
+        }
+        foreach ($queryStaff as $value) {
+            array_push($valuesStaff, json_decode($value->toJSONPrivate(), true));
         }
 
-        $results = $values;
+        $results['stores'] = $valuesStore;
+        $results['managers'] = $valuesStaff;
+
 
         return json_encode($results);
     }
@@ -36,7 +43,7 @@ class StaffController extends Controller
     function view($id)
     {
         if ($id != null && !empty($id)) {
-            return $this->Staffs->findIt($id);
+            return $this->Staffs->findIt($id)->toJSONPrivate();
         } else {
             return ['status' => 1, 'message' => 'ID null ou undefined'];
         }
@@ -112,5 +119,17 @@ class StaffController extends Controller
         }
 
         return json_encode($results);
+    }
+
+    function getTopStaff($date)
+    {
+        if ($date !== null && !empty($date)) {
+            return $this->Staffs->top_staffs($date);
+        } else {
+            return [
+                'status' => 1,
+                'message' => 'Date null ou undefined',
+            ];
+        }
     }
 }

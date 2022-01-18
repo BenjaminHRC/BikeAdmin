@@ -44,35 +44,38 @@ class Model_category extends Model
 
     function findAll()
     {
-        $query = DB::select(
-            'SELECT category_id, category_name FROM production.categories',
+        $queryCategory = DB::select(
+            'SELECT c.category_id, c.category_name FROM production.categories c',
         );
-
         $results = [];
-
-        foreach ($query as $value) {
+        foreach ($queryCategory as $value) {
             $category = new Dao_category(
                 $value->category_id,
                 $value->category_name
             );
-            array_push($results, $category);
+            $results[] = $category;
         }
-
         return $results;
     }
 
     function findIt($id)
     {
         try {
-            $result = DB::select(
-                'SELECT category_id, category_name FROM production.categories WHERE category_id = ?',
+            $queryCategory = DB::select(
+                'SELECT c.category_id, c.category_name FROM production.categories c WHERE c.category_id = ?',
                 [$id]
             );
+            foreach ($queryCategory as $value) {
+                $category = new Dao_category(
+                    $value->category_id,
+                    $value->category
+                );
+                $results = $category;
+            }
+            return $results;
         } catch (\Exception $e) {
             $result = $e;
         }
-
-        return $result;
     }
 
     function dropIt($id)

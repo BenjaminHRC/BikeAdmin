@@ -6,40 +6,40 @@ use Illuminate\Database\Eloquent\Model;
 
 class Dao_brand extends Model
 {
-    private $id = null;
-    private $name = null;
+    private $brand_id = null;
+    private $brand_name = null;
 
-    function __construct($id, $name)
+    function __construct($brand_id, $brand_name)
     {
-        $this->id = $id;
-        $this->name = $name;
+        $this->brand_id = $brand_id;
+        $this->brand_name = $brand_name;
     }
 
     function getBrandId()
     {
-        return $this->id;
+        return $this->brand_id;
     }
 
-    function setBrandId($id)
+    function setBrandId($brand_id)
     {
-        return $this->id = $id;
+        return $this->brand_id = $brand_id;
     }
 
     function getBrandName()
     {
-        return $this->name;
+        return $this->brand_name;
     }
 
-    function setBrandName($name)
+    function setBrandName($brand_name)
     {
-        return $this->name = $name;
+        return $this->brand_name = $brand_name;
     }
 
     public function toJSONPrivate()
     {
         return json_encode([
-            'id' => $this->id,
-            'name' => $this->name
+            'brand_id' => $this->brand_id,
+            'brand_name' => $this->brand_name
         ]);
     }
 }

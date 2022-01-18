@@ -87,4 +87,18 @@ class BrandController extends Controller
 
         return json_encode($results);
     }
+
+    function getTopBrands()
+    {
+        try {
+            $query = $this->Brands->top_brands();
+            $result = [];
+            foreach ($query as $key => $value) {
+                array_push($result, $value);
+            }
+            return json_encode($result);
+        } catch (\Exception $e) {
+            return $e;
+        }
+    }
 }
