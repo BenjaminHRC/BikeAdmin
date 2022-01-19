@@ -67,16 +67,11 @@ class OrderController extends Controller
     function list()
     {
         $query = $this->Orders->findAll();
-
         $values = [];
-
         foreach ($query as $value) {
-            // $value->setLastName(strtolower($value->getLastName()));
             array_push($values, json_decode($value->toJSONPrivate(), true));
         }
-
         $results['data'] = $values;
-
         return json_encode($results);
     }
 
@@ -159,10 +154,7 @@ class OrderController extends Controller
                 }
             }
             foreach ($request->order_items as $value) {
-                // var_dump($value);
-
                 if ($value['created'] == true) {
-                    // var_dump('enterrrrrrrrrr');
                     // CREATED
                     $order_items = new Dao_order_item(
                         $value['order_id'],
@@ -217,8 +209,6 @@ class OrderController extends Controller
                 }
             }
         }
-
-
         return json_encode($result);
     }
 

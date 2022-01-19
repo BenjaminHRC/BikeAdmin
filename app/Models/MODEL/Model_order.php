@@ -16,7 +16,8 @@ class Model_order extends Model
     {
         try {
             DB::insert(
-                'INSERT INTO sales.orders (order_status, order_date, require_date, shipped_date, customer_id, store_id, staff_id) values (?, ?, ?, ?, ?, ?, ?)',
+                'INSERT INTO sales.orders (order_status, order_date, require_date, shipped_date, customer_id, store_id, staff_id) 
+                values (?, ?, ?, ?, ?, ?, ?)',
                 [
                     $order->getOrderStatus(),
                     $order->getOrderDate(),
@@ -113,8 +114,6 @@ class Model_order extends Model
                     $value->state,
                     $value->zip_code,
                 );
-                $listTmp = $order->getCustomer();
-                $listTmp[] = $customer;
                 $order->setCustomer($customer);
             }
             foreach ($queryStore as $value) {
@@ -128,8 +127,6 @@ class Model_order extends Model
                     $value->state,
                     $value->zip_code,
                 );
-                $listTmp = $order->getStore();
-                $listTmp[] = $store;
                 $order->setStore($store);
             }
             foreach ($queryStaff as $value) {
@@ -143,8 +140,6 @@ class Model_order extends Model
                     $value->store_id,
                     $value->manager_id
                 );
-                $listTmp = $order->getStaff();
-                $listTmp[] = $staff;
                 $order->setStaff($staff);
             }
             $results[] = $order;

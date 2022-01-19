@@ -28,9 +28,6 @@ class Dao_order extends Model
         $this->customer_id = $customer_id;
         $this->store_id = $store_id;
         $this->staff_id = $staff_id;
-        $this->customer = null;
-        $this->store = null;
-        $this->staff = null;
     }
 
     function getOrderId()
