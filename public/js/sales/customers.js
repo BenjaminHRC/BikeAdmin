@@ -7,6 +7,7 @@ var liste_customers_select;
 const customerProperties = (action, _id) => {
     switch (action) {
         case "new":
+            $("#customerModal .modal-title").html("Nouveau client");
             customer_form = $("#customerForm");
             $("#customerId").val("");
             customer_form[0].reset();
@@ -22,9 +23,11 @@ const customerProperties = (action, _id) => {
                 type: "GET",
                 dataType: "json",
                 success: (json) => {
-                    console.log(json[0]);
-                    customer = json[0];
-
+                    console.log(json);
+                    customer = json;
+                    $("#customerModal .modal-title").html(
+                        customer.first_name + " " + customer.last_name
+                    );
                     $("#customerId").val(customer.customer_id);
                     $("#customerFirstName").val(customer.first_name);
                     $("#customerLastName").val(customer.last_name);
@@ -120,7 +123,7 @@ $(() => {
         ajax: "listCustomer",
         columns: [
             {
-                data: "id",
+                data: "customer_id",
                 render: (data, type, row, meta) => {
                     // console.log(data);
                     return $("<span>")
@@ -130,7 +133,7 @@ $(() => {
                         )
                         .attr(
                             "onClick",
-                            "customerProperties('view','" + row.id + "');"
+                            "customerProperties('view','" + data + "');"
                         )[0].outerHTML;
                 },
             },
@@ -183,13 +186,14 @@ $(() => {
                 },
             },
             {
-                data: "id",
+                data: "customer_id",
                 render: (data, type, row) => {
+                    console.log(row);
                     var edit = $("<button>")
                         .attr("class", "btn btn-info btn-sm my-1")
                         .attr(
                             "onClick",
-                            "customerProperties('edit'," + row.id + ")"
+                            "customerProperties('edit'," + data + ")"
                         )
                         .html(
                             $("<i>").addClass("fas fa-fw fa-edit")
@@ -199,7 +203,7 @@ $(() => {
                         .attr("class", "btn btn-danger btn-sm")
                         .attr(
                             "onClick",
-                            "customerProperties('delete'," + row.id + ")"
+                            "customerProperties('delete'," + data + ")"
                         )
                         .html(
                             $("<i>").addClass("fas fa-fw fa-backspace")
