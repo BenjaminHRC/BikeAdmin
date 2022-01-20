@@ -13,7 +13,7 @@ const productProperties = (action, _id) => {
             product_form = $("#productForm");
             $("#productId").val("");
             product_form[0].reset();
-            generateOptionInput();
+            productGenerateOptionInput();
 
             $("#productModal").modal();
             break;
@@ -26,9 +26,9 @@ const productProperties = (action, _id) => {
                 type: "GET",
                 dataType: "json",
                 success: (json) => {
-                    console.log(json[0]);
-                    product = json[0];
-                    generateOptionInput();
+                    console.log(json);
+                    product = json;
+                    productGenerateOptionInput();
 
                     $("#productId").val(product.product_id);
                     $("#productName").val(product.product_name);
@@ -121,13 +121,13 @@ const productProperties = (action, _id) => {
 const productGenerateOptionInput = () => {
     $.each(liste_brands, (k, v) => {
         $("#productBrandId").append(
-            $('<option value="' + v.id + '">').html(v.name)
+            $('<option value="' + v.brand_id + '">').html(v.brand_name)
         );
     });
 
     $.each(liste_categories, (k, v) => {
         $("#productCategoryId").append(
-            $('<option value="' + v.id + '">').html(v.name)
+            $('<option value="' + v.category_id + '">').html(v.category_name)
         );
     });
 };
@@ -140,7 +140,7 @@ $(() => {
         // pagingType: "full_numbers",
         columns: [
             {
-                data: "id",
+                data: "product_id",
                 render: (data, type, row, meta) => {
                     // console.log(data);
                     return $("<span>")
@@ -155,7 +155,7 @@ $(() => {
                 },
             },
             {
-                data: "name",
+                data: "product_name",
                 render: (data, type, row, meta) => {
                     return data != null ? data : "-";
                 },
@@ -167,31 +167,31 @@ $(() => {
                 },
             },
             {
-                data: "price",
+                data: "list_price",
                 render: (data, type, row, meta) => {
                     return data != null ? data : "-";
                 },
             },
             {
-                data: "brand_id",
+                data: "brand.brand_name",
                 render: (data, type, row, meta) => {
                     return data != null ? data : "-";
                 },
             },
             {
-                data: "category",
+                data: "category.category_name",
                 render: (data, type, row, meta) => {
                     return data != null ? data : "-";
                 },
             },
             {
-                data: "id",
+                data: "product_id",
                 render: (data, type, row) => {
                     var edit = $("<button>")
                         .attr("class", "btn btn-info btn-sm my-1")
                         .attr(
                             "onClick",
-                            "productProperties('edit'," + row.id + ")"
+                            "productProperties('edit'," + row.product_id + ")"
                         )
                         .html(
                             $("<i>").addClass("fas fa-fw fa-edit")
@@ -201,7 +201,7 @@ $(() => {
                         .attr("class", "btn btn-danger btn-sm")
                         .attr(
                             "onClick",
-                            "productProperties('delete'," + row.id + ")"
+                            "productProperties('delete'," + row.product_id + ")"
                         )
                         .html(
                             $("<i>").addClass("fas fa-fw fa-backspace")

@@ -24,9 +24,6 @@
                     <br>
                     <label for="category_id">Catégorie</label>
                     <select name="category_id" class="form-control" id="productCategoryId" required></select>
-                    <br>
-                    <label for="store_id">Magasin</label>
-                    <select name="store_id" class="form-control" id="productStoreId"></select>
                 </form>
             </div>
             <div class="modal-footer">
