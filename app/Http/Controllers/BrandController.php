@@ -22,7 +22,7 @@ class BrandController extends Controller
     function view($id)
     {
         if ($id != null && !empty($id)) {
-            return $this->Brands->findIt($id);
+            return $this->Brands->findIt($id)->toJSONPrivate();
         } else {
             return ["status" => 1, "message" => "ID null ou undefined"];
         }
