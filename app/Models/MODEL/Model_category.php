@@ -68,13 +68,13 @@ class Model_category extends Model
             foreach ($queryCategory as $value) {
                 $category = new Dao_category(
                     $value->category_id,
-                    $value->category
+                    $value->category_name
                 );
                 $results = $category;
             }
             return $results;
         } catch (\Exception $e) {
-            $result = $e;
+            return $e;
         }
     }
 

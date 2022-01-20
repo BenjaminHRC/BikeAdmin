@@ -5,26 +5,27 @@ var liste_categories;
 
 const categoryProperties = (action, _id) => {
     switch (action) {
-
         case "new":
+            $("#categoryModal .modal-title").html("Nouvelle catégorie");
             category_form = $("#categoryForm");
-            $("#categoryId").val('');
+            $("#categoryId").val("");
             category_form[0].reset();
 
             $("#categoryModal").modal();
             break;
 
         case "edit":
-            console.log("edit");
             category_form = $("#categoryForm");
             $.ajax({
-                url: 'viewCategory/' + _id,
-                type: 'GET',
-                dataType: 'json',
+                url: "viewCategory/" + _id,
+                type: "GET",
+                dataType: "json",
                 success: (json) => {
-                    console.log(json[0]);
-                    category = json[0];
-
+                    console.log(json);
+                    category = json;
+                    $("#categoryModal .modal-title").html(
+                        category.category_name
+                    );
                     $("#categoryId").val(category.category_id);
                     $("#categoryName").val(category.category_name);
 
@@ -32,7 +33,7 @@ const categoryProperties = (action, _id) => {
                 },
                 error: (error) => {
                     console.log(error);
-                }
+                },
             });
             break;
 
@@ -41,37 +42,37 @@ const categoryProperties = (action, _id) => {
             console.log(category_form[0]);
             console.log(formData);
             $.ajax({
-                url: 'saveCategory',
-                type: 'POST',
+                url: "saveCategory",
+                type: "POST",
                 data: formData,
                 processData: false,
                 contentType: false,
-                dataType: 'json',
+                dataType: "json",
                 headers: {
-                    'X-CSRF-TOKEN': crsf_token
+                    "X-CSRF-TOKEN": crsf_token,
                 },
                 success: (json) => {
                     console.log(json);
                     if (json.status == 0) {
                         liste_categories.ajax.reload();
-                        $("#categoryModal").modal('hide');
+                        $("#categoryModal").modal("hide");
                     }
                 },
                 error: (error) => {
                     console.log(error);
-                }
+                },
             });
             break;
 
         case "delete":
             $.ajax({
-                url: 'deleteCategory/' + _id,
-                type: 'POST',
+                url: "deleteCategory/" + _id,
+                type: "POST",
                 cache: false,
                 headers: {
-                    'X-CSRF-Token': crsf_token
+                    "X-CSRF-Token": crsf_token,
                 },
-                dataType: 'json',
+                dataType: "json",
                 success: (json) => {
                     console.log(json);
                     if (json.status === 0) {
@@ -81,7 +82,7 @@ const categoryProperties = (action, _id) => {
                 error: (error) => {
                     console.log(error);
                     // swal("Erreur!", "Impossible de supprimer la NIP", "error");
-                }
+                },
             });
             break;
 
@@ -89,7 +90,7 @@ const categoryProperties = (action, _id) => {
             console.log("guest_" + _id);
             break;
     }
-}
+};
 
 $(() => {
     // datatable
@@ -100,38 +101,57 @@ $(() => {
         // scrollX: true,
         columns: [
             {
-                data: "id", render: (data, type, row, meta) => {
+                data: "category_id",
+                render: (data, type, row, meta) => {
                     // console.log(data);
-                    return $('<span>')
-                        .addClass('btn btn-secondary btn-sm')
-                        .html(data === '' ? $('<i>').html('non renseigné') : data)
-                        .attr('onClick', "categoryProperties('view','" + row.id + "');")[0].outerHTML;
-                }
+                    return $("<span>")
+                        .addClass("btn btn-secondary btn-sm")
+                        .html(
+                            data === "" ? $("<i>").html("non renseigné") : data
+                        )
+                        .attr(
+                            "onClick",
+                            "categoryProperties('view','" +
+                                row.category_id +
+                                "');"
+                        )[0].outerHTML;
+                },
             },
             {
-                data: "name", render: (data, type, row, meta) => {
+                data: "category_name",
+                render: (data, type, row, meta) => {
                     return data != null ? data : "-";
-                }
+                },
             },
             {
-                data: "id",
+                data: "category_id",
                 render: (data, type, row) => {
                     var edit = $("<button>")
                         .attr("class", "btn btn-info btn-sm my-1")
-                        .attr('onClick', "categoryProperties('edit'," + row.id + ")")
-                        .html($("<i>").addClass("fas fa-fw fa-edit"))
-                    [0].outerHTML;
+                        .attr(
+                            "onClick",
+                            "categoryProperties('edit'," + row.category_id + ")"
+                        )
+                        .html(
+                            $("<i>").addClass("fas fa-fw fa-edit")
+                        )[0].outerHTML;
 
                     var del = $("<button>")
                         .attr("class", "btn btn-danger btn-sm")
-                        .attr('onClick', "categoryProperties('delete'," + row.id + ")")
-                        .html($("<i>").addClass("fas fa-fw fa-backspace"))
-                    [0].outerHTML;
+                        .attr(
+                            "onClick",
+                            "categoryProperties('delete'," +
+                                row.category_id +
+                                ")"
+                        )
+                        .html(
+                            $("<i>").addClass("fas fa-fw fa-backspace")
+                        )[0].outerHTML;
 
                     return edit + "&nbsp;" + del;
                 },
-            }
-        ]
+            },
+        ],
     });
 
     $("#addCategory").click(() => {
