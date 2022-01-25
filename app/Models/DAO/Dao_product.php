@@ -114,8 +114,8 @@ class Dao_product extends Model
             'category_id' => $this->category_id,
             'model_year' => $this->model_year,
             'list_price' => $this->list_price,
-            'brand' => json_decode($this->brand->toJSONPrivate(), true),
-            'category' => json_decode($this->category->toJSONPrivate(), true)
+            'brand' => $this->brand != null ? json_decode($this->brand->toJSONPrivate(), true) : null,
+            'category' => $this->category != null ? json_decode($this->category->toJSONPrivate(), true) : null
         ]);
     }
 }
