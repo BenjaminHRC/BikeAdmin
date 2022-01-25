@@ -75,8 +75,8 @@ class Dao_stock extends Model
             'store_id' => $this->store_id,
             'product_id' => $this->product_id,
             'quantity' => $this->quantity,
-            'store' => json_decode($this->store->toJSONPrivate()),
-            'product' => json_decode($this->product->toJSONPrivate())
+            'store' => $this->store ? json_decode($this->store->toJSONPrivate()) : null,
+            'product' => $this->product ? json_decode($this->product->toJSONPrivate()) : null,
         ]);
     }
 }

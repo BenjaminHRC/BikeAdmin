@@ -13,6 +13,25 @@ class Model_stock extends Model
     function createIt($stock)
     {
         try {
+            // $queryAllStock = DB::query("SELECT store_id, product_id, quantity FROM production.stocks");
+            // foreach ($queryAllStock as $value) {
+            //     $allStock = new Dao_stock(
+            //         $value->stock_id,
+            //         $value->product_id,
+            //         $value->quantity
+            //     );
+            //     if ($allStock->stock_id != $stock->getStoreId() || $allStock->product_id != $stock->getProductId()) {
+            //         DB::insert(
+            //             'INSERT INTO production.stocks (store_id, product_id, quantity) values (?, ?, ?)',
+            //             [
+            //                 $stock->getStoreId(),
+            //                 $stock->getProductId(),
+            //                 $stock->getQuantity(),
+            //             ]
+            //         );
+            //     }
+            // }
+
             DB::insert(
                 'INSERT INTO production.stocks (store_id, product_id, quantity) values (?, ?, ?)',
                 [
@@ -21,6 +40,7 @@ class Model_stock extends Model
                     $stock->getQuantity(),
                 ]
             );
+
             $result = true;
         } catch (\Exception $e) {
             $result = $e;
@@ -32,7 +52,7 @@ class Model_stock extends Model
     {
         try {
             DB::update(
-                'UPDATE production.products set quantity = ? WHERE product_id = ?, store_id = ?',
+                'UPDATE production.stocks set quantity = ? WHERE product_id = ? AND store_id = ?',
                 [
                     $stock->getQuantity(),
                     $stock->getProductId(),
@@ -60,20 +80,21 @@ class Model_stock extends Model
 
         foreach ($queryStock as $value) {
             $stock = new Dao_stock(
+                $value->store_id,
                 $value->product_id,
-                $value->product_name,
-                $value->model_year,
-                $value->list_price,
-                $value->brand_name,
-                $value->category_name
+                $value->quantity,
             );
             $queryStore = DB::select(
                 'SELECT sto.store_id, sto.store_name, sto.phone, sto.email, sto.street, sto.city, sto.state, sto.zip_code 
-                FROM sales.stores sto'
+                FROM sales.stores sto
+                WHERE sto.store_id = ?',
+                [$stock->getStoreId()]
             );
             $queryProduct = DB::select(
                 'SELECT p.product_id, p.product_name, p.model_year, p.list_price, p.category_id, p.brand_id 
-                FROM production.products p'
+                FROM production.products p
+                WHERE p.product_id = ?',
+                [$stock->getProductId()]
             );
             foreach ($queryStore as $value) {
                 $store = new Dao_store(
@@ -97,7 +118,7 @@ class Model_stock extends Model
                     $value->model_year,
                     $value->list_price,
                 );
-                $stock->setProduct($store);
+                $stock->setProduct($product);
             }
             array_push($results, $stock);
         }
@@ -119,12 +140,9 @@ class Model_stock extends Model
 
             foreach ($queryStock as $value) {
                 $stock = new Dao_stock(
+                    $value->store_id,
                     $value->product_id,
-                    $value->product_name,
-                    $value->model_year,
-                    $value->list_price,
-                    $value->brand_name,
-                    $value->category_name
+                    $value->quantity,
                 );
                 $queryStore = DB::select(
                     'SELECT sto.store_id, sto.store_name, sto.phone, sto.email, sto.street, sto.city, sto.state, sto.zip_code 
@@ -176,7 +194,7 @@ class Model_stock extends Model
     {
         try {
             DB::delete(
-                'DELETE FROM production.stocks WHERE stock_id = ?, product_id = ?',
+                'DELETE FROM production.stocks WHERE store_id = ? AND product_id = ?',
                 [$store_id, $product_id]
             );
             $result = true;

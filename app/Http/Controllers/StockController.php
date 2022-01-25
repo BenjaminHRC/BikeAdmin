@@ -70,35 +70,38 @@ class StockController extends Controller
 
     function save(Request $request)
     {
-        $result = ['status' => 2, 'message' => 'Données non formatée'];
-
-        if ($request->store_id != null && !empty($request->store_id) && $request->product_id != null && !empty($request->product_id)) {
-            $stocks = new Dao_stock(
-                $request->store_id,
-                $request->product_id,
-                $request->quantity,
-            );
-            // dd($this->Products->createIt($products));
-            if ($this->Stocks->updateIt($stocks) === true) {
-                $result = ['status' => 0, 'action' => 'update', 'message' => 'Données sauvegarder'];
-            } else {
-                $result = ['status' => 1, 'action' => 'update', 'message' => 'Données non sauvegarder', 'error' => $this->Stocks->updateIt($stocks)];
-            }
-        } else {
-            $stocks = new Dao_stock(
-                $request->store_id,
-                $request->product_id,
-                $request->quantity,
-            );
-            // dd($this->Products->createIt($products));
-            if ($this->Stocks->createIt($stocks) === true) {
-                $result = ['status' => 0, 'action' => 'create', 'message' => 'Données sauvegarder'];
-            } else {
-                $result = ['status' => 1, 'action' => 'create', 'message' => 'Données non sauvegarder', 'error' => $this->Stocks->createIt($stocks)];
+        $allStock = $this->Stocks->findAll();
+        foreach ($allStock as $value) {
+            $val = json_decode($value->toJSONPrivate());
+            if ($val->store_id == $request->store_id && $val->product_id == $request->product_id) {
+                $stocks = new Dao_stock(
+                    $request->store_id,
+                    $request->product_id,
+                    $request->quantity,
+                );
+                if ($this->Stocks->updateIt($stocks) === true) {
+                    return json_encode(['status' => 0, 'action' => 'update', 'message' => 'Données sauvegarder']);
+                } else {
+                    return json_encode(['status' => 1, 'action' => 'update', 'message' => 'Données non sauvegarder', 'error' => $this->Stocks->updateIt($stocks)]);
+                }
             }
         }
-
-        return json_encode($result);
+        foreach ($allStock as $value) {
+            $val = json_decode($value->toJSONPrivate());
+            if ($val->store_id != $request->store_id || $val->product_id != $request->product_id) {
+                $stocks = new Dao_stock(
+                    $request->store_id,
+                    $request->product_id,
+                    $request->quantity,
+                );
+                if ($this->Stocks->createIt($stocks) === true) {
+                    return  json_encode(['status' => 0, 'action' => 'create', 'message' => 'Données sauvegarder']);
+                } else {
+                    return json_encode(['status' => 1, 'action' => 'create', 'message' => 'Données non sauvegarder', 'error' => $this->Stocks->createIt($stocks)]);
+                }
+            }
+        }
+        return json_encode(['status' => 2, 'message' => 'Données non formatée']);
     }
 
     function delete($store_id, $product_id)
