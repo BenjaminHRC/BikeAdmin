@@ -102,6 +102,88 @@ class OrderController extends Controller
                     'error' => $this->Orders->updateIt($orders)
                 ];
             }
+            if ($request->order_items != null && !empty($request->order_items)) {
+                $result['order_items'] = [];
+                foreach ($request->order_items as $value) {
+                    // var_dump($value);
+                    if (array_key_exists('old_order_id', $value) && array_key_exists('old_item_id', $value)) {
+                        if ($value['old_order_id'] != null && !empty($value['old_order_id']) && $value['old_item_id'] != null && !empty($value['old_item_id'])) {
+                            if ($this->OrderItems->dropIt($value['old_order_id'], $value['old_item_id'])) {
+                                $message = [
+                                    'status' => 0,
+                                    "action" => "create",
+                                    'message' => 'Données sauvegarder'
+                                ];
+                                array_push($result['order_items'], $message);
+                            } else {
+                                $message = [
+                                    'status' => 1,
+                                    "action" => "create",
+                                    'message' => 'Données non sauvegarder',
+                                    'error' => $this->OrderItems->dropIt($value['old_order_id'], $value['old_item_id'])
+                                ];
+                                array_push($result['order_items'], $message);
+                            }
+                        }
+                    }
+                }
+                foreach ($request->order_items as $value) {
+                    // var_dump($value);
+                    if ($value['created'] == true) {
+                        // CREATED
+                        $order_items = new Dao_order_item(
+                            $value['order_id'],
+                            $value['item_id'],
+                            $value['product_id'],
+                            $value['quantity'],
+                            $value['list_price'],
+                            $value['discount']
+                        );
+                        if ($this->OrderItems->createIt($order_items) === true) {
+                            $message = [
+                                'status' => 0,
+                                "action" => "create",
+                                'message' => 'Données sauvegarder'
+                            ];
+                            array_push($result['order_items'], $message);
+                        } else {
+                            $message = [
+                                'status' => 1,
+                                "action" => "create",
+                                'message' => 'Données non sauvegarder',
+                                'error' => $this->OrderItems->createIt($order_items)
+                            ];
+                            array_push($result['order_items'], $message);
+                        }
+                        //END CREATED
+                    } else {
+                        $order_items = new Dao_order_item(
+                            $value['order_id'],
+                            $value['item_id'],
+                            $value['product_id'],
+                            $value['quantity'],
+                            $value['list_price'],
+                            $value['discount'],
+                        );
+                        if ($this->OrderItems->updateIt($order_items) === true) {
+                            $message = [
+                                'status' => 0,
+                                "action" => "update",
+                                'message' => 'Données sauvegarder'
+                            ];
+                            array_push($result['order_items'], $message);
+                        } else {
+                            $message = [
+                                'status' => 1,
+                                "action" => "update",
+                                'message' => 'Données non sauvegarder',
+                                'error' => $this->OrderItems->updateIt($order_items)
+                            ];
+                            array_push($result['order_items'], $message);
+                        }
+                    }
+                }
+            }
         } else {
             $orders = new Dao_order(
                 null,
@@ -127,86 +209,6 @@ class OrderController extends Controller
                     'message' => 'Données non sauvegarder',
                     'error' => $this->Orders->createIt($orders)
                 ];
-            }
-        }
-        if ($request->order_items != null && !empty($request->order_items)) {
-            $result['order_items'] = [];
-            foreach ($request->order_items as $value) {
-                if (array_key_exists('old_order_id', $value) && array_key_exists('old_item_id', $value)) {
-                    if ($value['old_order_id'] != null && !empty($value['old_order_id']) && $value['old_item_id'] != null && !empty($value['old_item_id'])) {
-                        if ($this->OrderItems->dropIt($value['old_order_id'], $value['old_item_id'])) {
-                            $message = [
-                                'status' => 0,
-                                "action" => "create",
-                                'message' => 'Données sauvegarder'
-                            ];
-                            array_push($result['order_items'], $message);
-                        } else {
-                            $message = [
-                                'status' => 1,
-                                "action" => "create",
-                                'message' => 'Données non sauvegarder',
-                                'error' => $this->OrderItems->dropIt($value['old_order_id'], $value['old_item_id'])
-                            ];
-                            array_push($result['order_items'], $message);
-                        }
-                    }
-                }
-            }
-            foreach ($request->order_items as $value) {
-                if ($value['created'] == true) {
-                    // CREATED
-                    $order_items = new Dao_order_item(
-                        $value['order_id'],
-                        $value['item_id'],
-                        $value['product_id'],
-                        $value['quantity'],
-                        $value['list_price'],
-                        $value['discount']
-                    );
-                    if ($this->OrderItems->createIt($order_items) === true) {
-                        $message = [
-                            'status' => 0,
-                            "action" => "create",
-                            'message' => 'Données sauvegarder'
-                        ];
-                        array_push($result['order_items'], $message);
-                    } else {
-                        $message = [
-                            'status' => 1,
-                            "action" => "create",
-                            'message' => 'Données non sauvegarder',
-                            'error' => $this->OrderItems->createIt($order_items)
-                        ];
-                        array_push($result['order_items'], $message);
-                    }
-                    //END CREATED
-                } else {
-                    $order_items = new Dao_order_item(
-                        $value['order_id'],
-                        $value['item_id'],
-                        $value['product_id'],
-                        $value['quantity'],
-                        $value['list_price'],
-                        $value['discount'],
-                    );
-                    if ($this->OrderItems->updateIt($order_items) === true) {
-                        $message = [
-                            'status' => 0,
-                            "action" => "update",
-                            'message' => 'Données sauvegarder'
-                        ];
-                        array_push($result['order_items'], $message);
-                    } else {
-                        $message = [
-                            'status' => 1,
-                            "action" => "update",
-                            'message' => 'Données non sauvegarder',
-                            'error' => $this->OrderItems->updateIt($order_items)
-                        ];
-                        array_push($result['order_items'], $message);
-                    }
-                }
             }
         }
         return json_encode($result);

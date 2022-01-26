@@ -10,9 +10,13 @@ var liste_stores;
 const orderProperties = (action, _id) => {
     switch (action) {
         case "new":
+            $("#orderModal .modal-title").html("Nouvelle facture");
+            $("#orderItemHide").hide();
             order_form = $("#orderForm");
             $("#orderId").val("");
             order_form[0].reset();
+            $("#orderStatus").val(3);
+            $("#orderDate").val(moment().format("YYYY-MM-DD"));
             generateOptionInput();
 
             $("#orderModal").modal();
@@ -20,6 +24,7 @@ const orderProperties = (action, _id) => {
 
         case "edit":
             // console.log("edit");
+            $("#orderItemHide").show();
             order_form = $("#orderForm");
 
             $.ajax({
@@ -76,7 +81,9 @@ const orderProperties = (action, _id) => {
                     console.log(json);
                     if (json.orders.status == 0) {
                         liste_orders.ajax.reload();
-                        orderProperties("view", order.order_id);
+                        if (order) {
+                            orderProperties("view", order.order_id);
+                        }
                         $("#orderModal").modal("hide");
                     }
                 },

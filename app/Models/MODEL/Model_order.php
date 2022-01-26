@@ -16,7 +16,7 @@ class Model_order extends Model
     {
         try {
             DB::insert(
-                'INSERT INTO sales.orders (order_status, order_date, require_date, shipped_date, customer_id, store_id, staff_id) 
+                'INSERT INTO sales.orders (order_status, order_date, required_date, shipped_date, customer_id, store_id, staff_id) 
                 values (?, ?, ?, ?, ?, ?, ?)',
                 [
                     $order->getOrderStatus(),

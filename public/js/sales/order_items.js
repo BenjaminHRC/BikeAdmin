@@ -101,7 +101,7 @@ const orderItemProperties = (action, rank) => {
                 url: "viewOrderItem/" + rank,
                 dataType: "json",
                 success: function (json) {
-                    // console.log(json);
+                    console.log(json);
                     arr_order_item = json.data;
                     let tab = $("#orderItemView>tbody");
                     let total_item_price_hr = [];
@@ -147,10 +147,16 @@ const orderItemProperties = (action, rank) => {
             break;
 
         case "delete":
+            // console.log(arr_order_item);
+            // console.log(rank);
+            // console.log(arr_order_item[rank]);
             old_arr_order_item.push(
-                arr_order_item.find((element) => element.item_id == rank)
+                arr_order_item.find(
+                    (element) => element.item_id == arr_order_item[rank].item_id
+                )
             );
-            arr_order_item.splice(rank - 1, 1);
+            // console.log(old_arr_order_item);
+            arr_order_item.splice(rank, 1);
             for (i = 0; i < arr_order_item.length; i++) {
                 arr_order_item[i].item_id = i + 1;
             }
@@ -266,11 +272,12 @@ const generateDataTableOrderItems = () => {
             {
                 data: "item_id",
                 render: (data, type, row, meta) => {
+                    // console.log(meta.row);
                     var edit = $("<span>")
                         .attr("class", "btn btn-info btn-sm my-1")
                         .attr(
                             "onClick",
-                            "orderItemProperties('edit'," + data + ")"
+                            "orderItemProperties('edit'," + meta.row + ")"
                         )
                         .html(
                             $("<i>").addClass("fas fa-fw fa-edit")
@@ -280,7 +287,7 @@ const generateDataTableOrderItems = () => {
                         .attr("class", "btn btn-danger btn-sm")
                         .attr(
                             "onClick",
-                            "orderItemProperties('delete'," + data + ")"
+                            "orderItemProperties('delete'," + meta.row + ")"
                         )
                         .html(
                             $("<i>").addClass("fas fa-fw fa-backspace")

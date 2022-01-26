@@ -158,19 +158,21 @@
                             <input type="date" name="shipped_date" class="form-control" id="orderShippedDate" required>
                         </div>
                     </div>
-                    <div class="d-flex justify-content-end my-3">
-                        <span id="addOrderItem" class="btn btn-primary">Nouvelle item</span>
+                    <div id="orderItemHide">
+                        <div class="d-flex justify-content-end my-3">
+                            <span id="addOrderItem" class="btn btn-primary">Nouvelle item</span>
+                        </div>
+                        <table class="table table-bordered w-100" id="liste_order_items">
+                            <thead>
+                                <th>Item</th>
+                                <th>Produit</th>
+                                <th>Prix</th>
+                                <th>Réduction</th>
+                                <th>Actions</th>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
                     </div>
-                    <table class="table table-bordered w-100" id="liste_order_items">
-                        <thead>
-                            <th>Item</th>
-                            <th>Produit</th>
-                            <th>Prix</th>
-                            <th>Réduction</th>
-                            <th>Actions</th>
-                        </thead>
-                        <tbody></tbody>
-                    </table>
                 </form>
             </div>
             <div class="modal-footer">
